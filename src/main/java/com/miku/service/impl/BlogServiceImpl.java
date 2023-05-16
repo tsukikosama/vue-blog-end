@@ -1,11 +1,14 @@
 package com.miku.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.miku.common.Result;
 import com.miku.entity.Blog;
 import com.miku.entity.Type;
 import com.miku.mapper.BlogMapper;
+import com.miku.pojo.BlogPo;
 import com.miku.service.BlogService;
 import com.miku.service.TagService;
 import com.miku.utils.SystemConstants;
@@ -33,7 +36,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         Page<Blog> page = query().page(new Page<>(current, SystemConstants.BLOG_PAGE_SIZE));
         //获取当前页数
 //        List<Blog> records = page.getRecords();
-//        System.out.println(page);
+        System.out.println(page);
+        System.out.println(count());
         page.setTotal(count());
         List<Blog> records = page.getRecords();
 
@@ -57,12 +61,30 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
     /**
+     * 获取热门博客
+     * @return
+     */
+    @Override
+    public List<Blog> hot() {
+        //构建条件wrapper
+        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+        wrapper.orderByDesc(Blog::getVisit);
+        QueryWrapper<Blog> f = new QueryWrapper<>();
+//        f.select()
+        wrapper.select(Blog::getBid,Blog::getTitle, Blog::getCreateDate);
+        wrapper.last("limit 5");
+        List<Blog> list = list(wrapper);
+        System.out.println(list);
+        return list;
+    }
+
+    /**
      * //判断是否有更具类型查询blog
      * @param current
      * @param type
      * @return
      */
-    @Override
+   /* @Override
     public Page<Blog> getBlogs(Integer current, Integer type) {
         //查询所有blog
         Page<Blog> page = query().like("tid",type).page(new Page<>(current, SystemConstants.BLOG_PAGE_SIZE));
@@ -90,5 +112,5 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         //把封装好的对象存入页面
         page.setRecords(blogs);
         return page;
-    }
+    }*/
 }

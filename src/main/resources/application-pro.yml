@@ -20,4 +20,4 @@ logging:
     com.hmdp: debug
 miku:
   uploadurl: http://139.159.252.234:8083/upload/
-
+  localurl: /www/server/nginx/html/image/

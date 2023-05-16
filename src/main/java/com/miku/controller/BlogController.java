@@ -4,11 +4,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.miku.common.Result;
 import com.miku.entity.Blog;
 
+import com.miku.pojo.BlogPo;
 import com.miku.service.BlogService;
 import com.miku.service.TagService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Slf4j
@@ -28,16 +31,13 @@ public class BlogController {
         return Result.ok(blog);
     }
     @GetMapping
-    public Result getBlogs(@RequestParam(value = "current",defaultValue = "1",required = false)Integer current){
+    public Result getBlogs(@RequestParam(value = "current",defaultValue = "1",required = false)Integer current,
+        @RequestParam(value = "tagid",required = false)Integer id
+    ){
         return  service.getBlogs(current);
     }
 
-    @GetMapping("/tagid")
-    public  Result getBlogByTag(@RequestParam(value = "current",defaultValue = "1",required = false)Integer current
-            ,@RequestParam(name = "tagid",required = false)Integer id){
-        System.out.println("test");
-        return Result.ok(service.getBlogs(current,id));
-    }
+
     @PostMapping("/update")
     public Result update(@RequestBody Blog blog){
         System.out.println(blog);
@@ -60,4 +60,13 @@ public class BlogController {
         return Result.ok("删除成功");
     }
 
+    /**
+     * 获取热门博客
+     * @return
+     */
+    @GetMapping("hotblog")
+    public Result hot(){
+        List<Blog> list = service.hot();
+        return Result.ok(list);
+    }
 }

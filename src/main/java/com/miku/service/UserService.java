@@ -13,4 +13,6 @@ public interface UserService extends IService<User> {
     Page<User> getUser(String username, Integer current);
 
     Boolean addUser(User user);
+
+    String register(User user, String code);
 }

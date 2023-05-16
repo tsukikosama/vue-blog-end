@@ -20,7 +20,7 @@ public class AddController {
         System.out.println(blog);
         DateTime now = DateTime.now();
         blog.setCreateDate(now.toDateStr());
-
+        blog.setIsValid(blog.getIsValid());
         boolean isSuccess = blogService.save(blog);
         if (!isSuccess){
             return Result.fail("添加失败");

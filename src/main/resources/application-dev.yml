@@ -4,7 +4,26 @@ spring:
     url: jdbc:mysql://localhost:3306/testblog?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     password: 2270398619
+  redis:
+    database: 2
+    host: 127.0.0.1
+    port: 6379
+    password:
+    jedis:
+      pool:
+      #最小空闲
+      min-idle: 0
+      # 最大空闲
+      max-idle: 5
+      #最大阻塞等待散件(负数表示没限制)
+      max-wait: -1
+      #最大连接数
+      max-active: 8
+      #链接过期时间
+    timeout: 10000
+
 server:
   port: 9000
 miku:
-  uploadurl: G://1/
+  uploadurl: http://localhost:8085/img/
+  localurl: G:/a_vue/nginx-1.23.4/html/img/

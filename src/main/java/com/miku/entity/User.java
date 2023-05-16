@@ -21,4 +21,5 @@ public class User {
     private Integer userType;
     private String isValid;
     private Integer version;
+    private String email;
 }

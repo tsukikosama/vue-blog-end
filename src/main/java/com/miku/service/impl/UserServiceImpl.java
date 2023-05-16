@@ -7,10 +7,14 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.miku.common.Result;
+import com.miku.entity.Code;
 import com.miku.entity.User;
 import com.miku.mapper.UserMapper;
 import com.miku.pojo.Userpo;
+import com.miku.service.CoderService;
 import com.miku.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,6 +24,11 @@ import static com.miku.utils.SystemConstants.MAX_PAGE_SIZE;
 
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements UserService {
+
+
+
+    @Autowired
+    private CoderService coderService;
     /**
      * 登录查询
      * @param user
@@ -90,5 +99,40 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         user.setCreateTime(now.toDateStr());
         save(user);
         return true;
+    }
+
+    /**
+     * 这个方法数据库限制了邮箱和账户的唯一性 所以这里不去判断账号和邮箱的唯一性
+     * @param user
+     * @param code
+     * @return
+     */
+    @Override
+    public String register(User user, String code) {
+        if(user == null){
+            return "数据不合法";
+        }
+
+        //构建wrapper
+        LambdaQueryWrapper<Code> wrapper = new LambdaQueryWrapper<Code>();
+        Code code1 = new Code();
+        code1.setEmail(user.getEmail());
+        //判断验证码是否正确
+        Code one = coderService.getOne(wrapper);
+        if(one == null){
+            return "验证码错误";
+        }
+//        System.out.println(code);
+//        System.out.println(one.getCode());
+        //判断验证码是否相同
+//        System.out.println(!code.equals(one.getCode()));
+        if(!code.equals(one.getCode())){
+
+            //不相同
+            return "验证码错误";
+        }
+//        System.out.println("11111111111");
+        addUser(user);
+        return "添加成功";
     }
 }

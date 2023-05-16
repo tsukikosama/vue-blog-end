@@ -1,9 +1,12 @@
 package com.miku.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.miku.common.Result;
+import com.miku.entity.Code;
 import com.miku.entity.User;
 import com.miku.pojo.Userpo;
+import com.miku.service.CoderService;
 import com.miku.service.UserService;
 import com.miku.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +17,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
+
+
+
     @Autowired
     private UserService userService;
     @PostMapping
@@ -25,17 +31,14 @@ public class UserController {
         }
         return Result.ok(u);
     }
-    @PostMapping("/register")
-    public Result registerUser(@RequestBody User user){
 
-        if(user == null){
-            return Result.fail("数据不合法");
-        }
-        Boolean isSuccess = userService.addUser(user);
-        if (!isSuccess){
-            return Result.fail("用户命存在");
-        }
-        return Result.ok("添加成功");
+    @PostMapping("/register")
+    public Result registerUser(@RequestBody User user,@RequestParam("code")String code){
+
+        System.out.println(code);
+        String msg = userService.register(user,code);
+
+        return Result.ok(msg);
     }
 
     @GetMapping("")
@@ -53,7 +56,7 @@ public class UserController {
         }
         boolean b = userService.saveOrUpdate(user);
         if (!b){
-            return Result.fail("关系失败");
+            return Result.fail("更新失败");
         }
         return Result.ok("更新成功");
     }
