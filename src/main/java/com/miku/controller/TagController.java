@@ -1,17 +1,12 @@
 package com.miku.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.miku.common.Result;
 
-import com.miku.entity.Blog;
 import com.miku.entity.Type;
-import com.miku.service.BlogService;
 import com.miku.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 
 @RestController
@@ -19,23 +14,24 @@ import java.util.List;
 public class TagController {
     @Autowired
     private TagService tagService;
-    @Autowired
-    private BlogService blogService;
+
     @GetMapping("/tags")
     public Result getTags(){
         return Result.ok(tagService.list());
     }
     @GetMapping()
     public Result getTagsByCurrent(@RequestParam(value = "current",defaultValue = "1",required = false)Integer current){
+
         Page<Type> page = tagService.getTagsPage(current);
         return Result.ok(page);
     }
+//   @TODO 忘记了这个是什么方法
     @GetMapping("/tagid")
     public Result getBlogByTagid(@RequestParam("tagid")Integer tagid){
-        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper();
-        wrapper.like(Blog::getTid,tagid);
-        List<Blog> list = blogService.list(wrapper);
-        return Result.ok(list);
+//        //通过tagid来查询对应的页数
+//        Page<Type> list = tagService.getBlogByTagid(tagid);
+//        return Result.ok(list);
+        return Result.ok();
     }
     @PostMapping("/del")
     public Result delTag(@RequestParam("id") Integer id){
@@ -48,7 +44,7 @@ public class TagController {
     @PostMapping("add")
     public Result addTag(@RequestBody Type tagname){
         System.out.println(tagname);
-        boolean success = tagService.save(tagname);
+        boolean success = tagService.saveOrUpdate(tagname);
         if (!success){
             return Result.fail("添加失败");
         }

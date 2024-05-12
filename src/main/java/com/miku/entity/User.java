@@ -22,4 +22,7 @@ public class User {
     private String isValid;
     private Integer version;
     private String email;
+    private String about;
+    private String nickname;
+    private String ban;
 }

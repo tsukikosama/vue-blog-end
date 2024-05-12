@@ -1,6 +1,5 @@
 package com.miku.service.impl;
 
-import cn.hutool.log.Log;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.miku.entity.Code;
@@ -12,6 +11,10 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class CodeServiceImpl extends ServiceImpl<CodeMapper, Code> implements CoderService {
+
+    /**
+     * redis代替验证码 弃用
+     */
     @Override
     public void delCode() {
         //通过手机查找到对应的验证码然后删除

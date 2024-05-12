@@ -1,12 +1,9 @@
 package com.miku.common;
 
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.io.NioUtil;
 import cn.hutool.core.io.file.FileNameUtil;
-import cn.hutool.core.lang.UUID;
 import cn.hutool.core.util.IdUtil;
-import cn.hutool.log.Log;
+import cn.hutool.json.JSONUtil;
+import com.miku.entity.EditImg;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,12 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
-import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
-import java.lang.annotation.ElementType;
-import java.util.List;
-import java.util.logging.Logger;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/upload")
@@ -37,8 +32,49 @@ public class upload {
      */
     @PostMapping
     public Result uploadImg(@RequestParam("file") MultipartFile file){
-        System.out.println(file);
+//        System.out.println(file);
         //获取文件上传路径
+        String url = getUrl(file);
+        return Result.ok(url);
+    }
+
+
+    /**
+     * wangedit文件上传功能
+     * @param file
+     * @return
+     */
+    @PostMapping("edit/upload")
+    public String uploadfile(@RequestParam("file") MultipartFile file){
+
+
+        Map<String,Object> map = new LinkedHashMap<>();
+        System.out.println(file);
+        map.put("errno",0);
+
+        String url = getUrl(file);
+
+        EditImg img = new EditImg();
+        img.setUrl(url);
+        img.setHref(url);
+
+        map.put("data",img);
+        System.out.println(JSONUtil.toJsonStr(map));
+        return JSONUtil.toJsonStr(map);
+    }
+
+    @PostMapping("/img")
+    public String getFileUrl(HttpServletRequest request ,@RequestParam(value = "file")MultipartFile file){
+        System.out.println(file);
+        return getUrl(file);
+    }
+
+    /**
+     * 传文件获取文件的服务器路径
+     * @param file
+     * @return
+     */
+    public String getUrl(MultipartFile file){
         String path = localurl;
         System.out.println("上传路径"+path);
         File f = new File(path);
@@ -63,8 +99,7 @@ public class upload {
             log.error("图片上传异常");
             throw new RuntimeException("文件上传异常");
         }
-        return Result.ok(url+newFileName);
+        return url+newFileName;
     }
-
 }
 

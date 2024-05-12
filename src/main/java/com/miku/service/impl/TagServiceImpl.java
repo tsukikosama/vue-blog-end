@@ -8,10 +8,13 @@ import com.miku.mapper.TagMapper;
 import com.miku.service.TagService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TagServiceImpl extends ServiceImpl<TagMapper, Type> implements TagService {
+
+
     //通过页数来查询tag的数量
     @Override
     public Page<Type> getTagsPage(Integer current) {
@@ -34,4 +37,27 @@ public class TagServiceImpl extends ServiceImpl<TagMapper, Type> implements TagS
         List<Type> tags = list(wrapper);
         return tags;
     }
+
+    /**
+     * 这个方法是通过字符串的tagid来获取标签的名字
+     * @param tagid
+     * @return
+     */
+    @Override
+    public List<Type> getTagNameByTagid(String tagid){
+        //传过来的字符串是通过,来划分的 每个都是tagid
+        String[] split = tagid.split(",");
+        ArrayList<Integer> list = new ArrayList<>();
+        //来存储获取的type
+        ArrayList<Type> types = new ArrayList<>();
+        for(String i : split){
+            list.add(Integer.parseInt(i));
+        }
+        list.stream().forEach((item) -> {
+            Type tag = this.getById(item);
+            types.add(tag);
+        });
+        return types;
+    }
+
 }

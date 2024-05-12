@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.miku.mapper.ModuleMapper">
+    <select id="listByPage" resultType="com.miku.entity.Module">
+        select * from cc_module
+        <where>
+            <if test="true">
+
+            </if>
+            <if test="query.key != null and query.key != ''">
+                and a.title like concat('%',#{query.key},'%')
+            </if>
+            <if test="query.startTime != '' and query.endTime != ''  ">
+                and a.create_date between #{query.startTime} and #{query.endTime}
+            </if>
+            <if test="query.author != null and query.author != ''">
+                and b.nickname = #{query.author}
+            </if>
+
+        </where>
+        limit ${(query.pageNum-1) * query.pageSize},#{query.pageSize}
+    </select>
+</mapper>

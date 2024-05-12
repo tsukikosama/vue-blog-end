@@ -12,8 +12,6 @@ import java.util.Collections;
 
 @Configuration
 public class CorsConfig {
-
-
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration corsConfiguration = new CorsConfiguration();

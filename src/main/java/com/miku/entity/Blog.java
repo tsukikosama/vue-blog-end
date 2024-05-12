@@ -3,6 +3,7 @@ package com.miku.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.miku.pojo.Userpo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +22,7 @@ public class Blog {
     private int isValid;
     private String createDate;
     private int version;
+    private Integer uid;
     /**
      * 逗号隔开
      */
@@ -29,4 +31,7 @@ public class Blog {
     private List<Type> tag;
     private int visit;
     private String simpleTitle;
+    @TableField(exist = false)
+    private Userpo user;
+
 }

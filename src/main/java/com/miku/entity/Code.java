@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 用redis代替了 邮箱 弃用
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
