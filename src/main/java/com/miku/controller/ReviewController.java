@@ -26,6 +26,9 @@ public class ReviewController {
 //        System.out.println(review);
         String msg = reviewService.addRevice(review);
 
+        if (msg.equals("有非法词")){
+            return Result.fail("有非法词");
+        }
 
         return Result.ok(msg);
     }

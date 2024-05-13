@@ -70,7 +70,8 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <!--spring redis的依赖 --> <groupId>org.springframework.boot</groupId>
+            <!--spring redis的依赖 -->
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
 
         </dependency>

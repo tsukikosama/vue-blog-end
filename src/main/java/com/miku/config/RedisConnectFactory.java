@@ -1,6 +1,5 @@
 package com.miku.config;
 
-import jdk.nashorn.internal.objects.annotations.Property;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;

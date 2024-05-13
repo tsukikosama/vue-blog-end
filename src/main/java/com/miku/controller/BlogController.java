@@ -3,9 +3,11 @@ package com.miku.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.RandomUtil;
+import cn.hutool.dfa.WordTree;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.miku.common.CommonQuery;
 import com.miku.common.Result;
+import com.miku.config.ForbiddenWordsLoader;
 import com.miku.entity.Blog;
 
 import com.miku.entity.Type;
@@ -32,6 +34,12 @@ public class BlogController {
 
     @Autowired
     private TagService tagService;
+
+    /**
+     * 注入违禁词过滤器
+     */
+    @Autowired
+    private  ForbiddenWordsLoader forbiddenWordsLoader;
     @GetMapping("/{id}")
     public Result getBlog(@PathVariable("id")Integer id){
         Blog blog = service.getById(id);
@@ -57,7 +65,10 @@ public class BlogController {
         System.out.println(blog.getIsValid());
         DateTime now = DateTime.now();
         blog.setCreateDate(now.toDateStr());
-
+        boolean match = forbiddenWordsLoader.checkWord(blog.getContent());
+        if (match){
+            return Result.fail("内容不合法请修改后再提交");
+        }
         boolean isSuccess = service.saveOrUpdate(blog);
         if (!isSuccess){
             return Result.fail("添加失败");

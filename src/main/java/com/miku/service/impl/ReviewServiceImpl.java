@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.miku.common.CommonQuery;
+import com.miku.config.ForbiddenWordsLoader;
 import com.miku.entity.Blog;
 import com.miku.entity.Review;
 import com.miku.entity.User;
@@ -38,6 +39,9 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
 
     @Autowired
     private UserMapper mapper;
+
+    @Autowired
+    private ForbiddenWordsLoader forbiddenWordsLoader;
 
     /**
      * 通过博客的id来查询所有的评论
@@ -111,6 +115,11 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     public String  addRevice(Review review) {
         review.setTime(DateUtil.date().toString());
         review.setLikes(0);
+        //
+        Boolean check = forbiddenWordsLoader.checkWord(review.getContent());
+        if (check){
+            return "有非法词";
+        }
         boolean flag = this.save(review);
 
 
