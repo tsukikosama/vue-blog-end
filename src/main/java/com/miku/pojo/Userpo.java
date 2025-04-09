@@ -7,9 +7,7 @@ import lombok.Data;
 public class Userpo {
     private Integer uid;
     private String username;
-//    @TableField(value = "user_icon")
     private String userIcon;
-//    private String token;
     private String about;
     private String email;
     private String createTime;

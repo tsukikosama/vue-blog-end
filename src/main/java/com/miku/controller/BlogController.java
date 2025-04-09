@@ -157,11 +157,6 @@ public class BlogController {
         return Result.ok(set);
     }
 
-//    @GetMapping("/list")
-//    public Result getBlogs(){
-//        return Result.ok(service.list());
-//    }
-
     @GetMapping("/list")
     public Result getBlogByPage(CommonQuery query){
 

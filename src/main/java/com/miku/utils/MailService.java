@@ -134,7 +134,6 @@ public class MailService {
 //            Code code = new Code(to,text);
             //把验证码存入数据库中
 //            codeService.save(code);
-
         } catch (MessagingException e) {
             e.printStackTrace();
             System.out.println("发送邮件失败："+e.getMessage());
