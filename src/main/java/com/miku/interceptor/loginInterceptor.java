@@ -18,7 +18,6 @@ public class loginInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
         //判断请求头中是否有token
 //        String token = UserHolder.getUser();
 //        System.out.println(token);
@@ -26,7 +25,8 @@ public class loginInterceptor implements HandlerInterceptor {
             response.setStatus(401);
             return false;
         }
-
         return true;
     }
+
+
 }
