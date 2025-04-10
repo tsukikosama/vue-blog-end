@@ -10,7 +10,6 @@ import com.weilai.common.CommonQuery;
 import com.weilai.entity.Code;
 import com.weilai.entity.User;
 import com.weilai.mapper.UserMapper;
-import com.weilai.pojo.Userpo;
 import com.weilai.service.CoderService;
 import com.weilai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,56 +33,56 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     @Autowired
     private StringRedisTemplate stringTemplate;
 
-    @Value("${myconfig.salt}")
-    private String salt ;
-    /**
-     * 登录查询
-     * @param user
-     * @return
-     */
-    @Override
-    public Userpo login(User user) {
-
-        Userpo po = new Userpo();
-//        User u = new User();
-        //判断redis中是否存在该对象
-//        String token = user.getUsername();
-//        Sign sign = SecureUtil.sign(SignAlgorithm.MD5withRSA);
-//        byte[] sign1 = sign.sign(token);
-//        token = LOGIN_TOKEN + token;
-        //System.out.println(token);
-        //redis中拥有token
-//        if (stringTemplate.hasKey(token)){
-//            String users = stringTemplate.opsForValue().get(token);
-//            System.out.println(users);
-//            po = JSONUtil.toBean(users, Userpo.class);
-//            System.out.println("111111");
-//            System.out.println(po);
-//            return po;
+//    @Value("${myconfig.salt}")
+//    private String salt ;
+//    /**
+//     * 登录查询
+//     * @param user
+//     * @return
+//     */
+//    @Override
+//    public R login(User user) {
+//
+////        Userpo po = new Userpo();
+////        User u = new User();
+//        //判断redis中是否存在该对象
+////        String token = user.getUsername();
+////        Sign sign = SecureUtil.sign(SignAlgorithm.MD5withRSA);
+////        byte[] sign1 = sign.sign(token);
+////        token = LOGIN_TOKEN + token;
+//        //System.out.println(token);
+//        //redis中拥有token
+////        if (stringTemplate.hasKey(token)){
+////            String users = stringTemplate.opsForValue().get(token);
+////            System.out.println(users);
+////            po = JSONUtil.toBean(users, Userpo.class);
+////            System.out.println("111111");
+////            System.out.println(po);
+////            return po;
+////        }
+//        //没用token 从数据空中查找
+//        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+//        wrapper.eq(User::getUsername,user.getUsername());
+//        User user1 = getOne(wrapper);
+//
+//        //判断密码是否一致 不一样直接返回空
+//        if(!user1.getPassword().equals(user.getPassword())){
+//            return null;
 //        }
-        //没用token 从数据空中查找
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUsername,user.getUsername());
-        User user1 = getOne(wrapper);
-
-        //判断密码是否一致 不一样直接返回空
-        if(!user1.getPassword().equals(user.getPassword())){
-            return null;
-        }
-        //user不为空去数据库中查询
-//        if(user1 != null){
-//            //存入redis一份 //把对象加密后返回存入redis
-////            stringTemplate.opsForValue().set(token  ,JSONUtil.toJsonStr(user1),60, TimeUnit.MINUTES);
-//            //System.out.println(user);
-//             po = BeanUtil.copyProperties(user1, Userpo.class);
-//             System.out.println(po);
-//             return po;
-//        }
-        po = BeanUtil.copyProperties(user1, Userpo.class);
-//        BeanUtil.copyProperties(user,po);
-
-        return po;
-    }
+//        //user不为空去数据库中查询
+////        if(user1 != null){
+////            //存入redis一份 //把对象加密后返回存入redis
+//////            stringTemplate.opsForValue().set(token  ,JSONUtil.toJsonStr(user1),60, TimeUnit.MINUTES);
+////            //System.out.println(user);
+////             po = BeanUtil.copyProperties(user1, Userpo.class);
+////             System.out.println(po);
+////             return po;
+////        }
+//        po = BeanUtil.copyProperties(user1, Userpo.class);
+////        BeanUtil.copyProperties(user,po);
+//
+//        return po;
+//    }
     //查询user信息
     @Override
     public Page<User> getUser(String username,Integer current) {
@@ -234,50 +233,50 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         return user;
     }
 
-    @Transactional
-    @Override
-    public Userpo banUser(String email) {
-        Userpo po = new Userpo();
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getEmail,email);
-        User one = getOne(wrapper);
-        //改状态
-        one.setBan("0");
-        //保存回去
-        boolean b = updateById(one);
-        if(!b){
-            return null;
-        }else{
-            po = BeanUtil.copyProperties(one,Userpo.class);
-            return po;
-        }
-
-    }
-    @Transactional
-    @Override
-    public Userpo unBan(String email,Integer uid) {
-        Userpo po = new Userpo();
+//    @Transactional
+//    @Override
+//    public Userpo banUser(String email) {
+//        Userpo po = new Userpo();
 //        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
 //        wrapper.eq(User::getEmail,email);
-        User one = this.getOneById(uid);
-        if (one == null){
-            return null;
-        }
-        if (!one.getEmail().equals(email)){
-            return null;
-        }
-        //改状态
-        one.setBan("1");
-        //保存回去
-         updateById(one);
-        boolean b = updateById(one);
-        if(!b){
-            return null;
-        }else{
-            po = BeanUtil.copyProperties(one,Userpo.class);
-            return po;
-        }
-    }
+//        User one = getOne(wrapper);
+//        //改状态
+//        one.setBan("0");
+//        //保存回去
+//        boolean b = updateById(one);
+//        if(!b){
+//            return null;
+//        }else{
+//            po = BeanUtil.copyProperties(one,Userpo.class);
+//            return po;
+//        }
+//
+//    }
+//    @Transactional
+//    @Override
+//    public Userpo unBan(String email,Integer uid) {
+//        Userpo po = new Userpo();
+////        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
+////        wrapper.eq(User::getEmail,email);
+//        User one = this.getOneById(uid);
+//        if (one == null){
+//            return null;
+//        }
+//        if (!one.getEmail().equals(email)){
+//            return null;
+//        }
+//        //改状态
+//        one.setBan("1");
+//        //保存回去
+//         updateById(one);
+//        boolean b = updateById(one);
+//        if(!b){
+//            return null;
+//        }else{
+//            po = BeanUtil.copyProperties(one,Userpo.class);
+//            return po;
+//        }
+//    }
 
     @Override
     public Page<User> listByPage(CommonQuery query) {

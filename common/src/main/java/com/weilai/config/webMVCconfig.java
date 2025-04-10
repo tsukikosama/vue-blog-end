@@ -1,6 +1,6 @@
 package com.weilai.config;
 
-import com.miku.interceptor.loginInterceptor;
+import com.weilai.interceptor.loginInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;

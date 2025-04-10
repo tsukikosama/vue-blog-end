@@ -23,19 +23,19 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping()
-    public Result getAllUser(){
-        return Result.ok(userService.list());
-    }
-    @PostMapping("/login")
-    public Result login(@RequestBody User user){
-        System.out.println(user);
-        Userpo token = userService.login(user);
-        if (token == null){
-            return Result.fail("用户名或者密码错误");
-        }
-        return Result.ok(token);
-    }
+//    @GetMapping()
+//    public Result getAllUser(){
+//        return Result.ok(userService.list());
+//    }
+////    @PostMapping("/login")
+////    public Result login(@RequestBody User user){
+////        System.out.println(user);
+//////        Userpo token = userService.login(user);
+//////        if (token == null){
+//////            return Result.fail("用户名或者密码错误");
+//////        }
+////        return Result.ok(token);
+////    }
 
     @PostMapping("/register")
     public Result registerUser(@RequestBody User user,@RequestParam("code")String code){
@@ -75,20 +75,20 @@ public class UserController {
         return Result.ok(u);
     }
 
-    @GetMapping("/ban")
-    public Result banUser(@RequestParam("email") String email){
-        //通过邮箱来查询对应的用户
-        Userpo userpo = userService.banUser(email);
-        return Result.ok("禁用成功");
-    }
-    @PostMapping("/unban")
-    public Result unBan(@RequestParam("email")String email,@RequestParam("uid") Integer uid){
-        Userpo userpo = userService.unBan(email,uid);
-        if (userpo == null){
-            return Result.fail("解封失败");
-        }
-        return Result.ok(userpo);
-    }
+//    @GetMapping("/ban")
+//    public Result banUser(@RequestParam("email") String email){
+//        //通过邮箱来查询对应的用户
+//        Userpo userpo = userService.banUser(email);
+//        return Result.ok("禁用成功");
+//    }
+//    @PostMapping("/unban")
+//    public Result unBan(@RequestParam("email")String email,@RequestParam("uid") Integer uid){
+//        Userpo userpo = userService.unBan(email,uid);
+//        if (userpo == null){
+//            return Result.fail("解封失败");
+//        }
+//        return Result.ok(userpo);
+//    }
     @GetMapping("/all")
     public Result list(){
         return Result.ok(userService.list());

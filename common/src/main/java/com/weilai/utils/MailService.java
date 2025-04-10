@@ -1,7 +1,7 @@
 package com.weilai.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.miku.service.impl.CodeServiceImpl;
+import com.weilai.service.impl.CodeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

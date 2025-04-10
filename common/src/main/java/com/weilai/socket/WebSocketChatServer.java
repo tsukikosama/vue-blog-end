@@ -1,7 +1,7 @@
 package com.weilai.socket;
 
 import com.alibaba.fastjson.JSON;
-import com.miku.entity.Message;
+import com.weilai.entity.Message;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;

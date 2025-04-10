@@ -11,7 +11,6 @@ import com.weilai.entity.Blog;
 import com.weilai.entity.Type;
 import com.weilai.entity.User;
 import com.weilai.mapper.BlogMapper;
-import com.weilai.pojo.Userpo;
 import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
 import com.weilai.service.UserService;
@@ -59,12 +58,11 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             }
             //通过typeid查询type
             List<Type> types = tagService.listByIds(list).stream().collect(Collectors.toList());
-            item.setTag(types);
+
 
             //通过uid去查询用户信息
             User u = userService.getById(item.getUid());
-            Userpo userpo = BeanUtil.copyProperties(u, Userpo.class);
-            item.setUser(userpo);
+
             return item;
         }).collect(Collectors.toList());
         //把封装好的对象存入页面
@@ -97,12 +95,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             }
             //通过typeid查询type
             List<Type> types = tagService.listByIds(list).stream().collect(Collectors.toList());
-            item.setTag(types);
-
-            //通过uid去查询用户信息
-            User u = userService.getById(item.getUid());
-            Userpo userpo = BeanUtil.copyProperties(u, Userpo.class);
-            item.setUser(userpo);
+//            item.setTag(types);
+//
+//            //通过uid去查询用户信息
+//            User u = userService.getById(item.getUid());
+//            Userpo userpo = BeanUtil.copyProperties(u, Userpo.class);
+//            item.setUser(userpo);
             return item;
         }).collect(Collectors.toList());
 
@@ -197,17 +195,17 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     public void totalBlog(List<Blog> blogs) {
         blogs.stream().forEach(item ->{
             User u = userService.getOneById(item.getUid());
-            Userpo userpo = BeanUtil.copyProperties(u, Userpo.class);
-            item.setUser(userpo);
-            String[] split = item.getTid().split(",");
-            List<Type> list = new ArrayList<Type>();
-            System.out.println(split.length);
-            //查询标签
-            for (int i = 0 ; i < split.length ;i++){
-                Type type = tagService.getById(Integer.parseInt(split[i]));
-                list.add(type);
-            }
-            item.setTag(list);
+//            Userpo userpo = BeanUtil.copyProperties(u, Userpo.class);
+//            item.setUser(userpo);
+//            String[] split = item.getTid().split(",");
+//            List<Type> list = new ArrayList<Type>();
+//            System.out.println(split.length);
+//            //查询标签
+//            for (int i = 0 ; i < split.length ;i++){
+//                Type type = tagService.getById(Integer.parseInt(split[i]));
+//                list.add(type);
+//            }
+//            item.setTag(list);
         });
     }
 

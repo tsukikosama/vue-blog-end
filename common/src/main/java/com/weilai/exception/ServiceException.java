@@ -1,8 +1,8 @@
 package com.weilai.exception;
 
 import cn.dev33.satoken.exception.NotLoginException;
-import com.miku.common.Result;
-import com.miku.exception.CustomException;
+import com.weilai.common.Result;
+import com.weilai.exception.CustomException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.springframework.validation.BindingResult;
