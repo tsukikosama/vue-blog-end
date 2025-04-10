@@ -8,12 +8,17 @@
         <version>2.7.8</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.miku</groupId>
+    <groupId>com.weilai</groupId>
     <artifactId>blog</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
     <name>blog</name>
     <description>blog</description>
+    <modules>
+        <module>web-api</module>
+        <module>common</module>
+        <module>cms-api</module>
+    </modules>
     <properties>
         <java.version>1.17</java.version>
     </properties>
@@ -98,7 +103,12 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot-starter</artifactId>
-            <version>1.9.0</version>
+            <version>1.41.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.14.0</version>
         </dependency>
     </dependencies>
     <build>
