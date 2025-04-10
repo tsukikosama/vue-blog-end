@@ -61,7 +61,7 @@ chatgpt:
   proxy-host: https://api.chatanywhere.com.cn
   session-expiration-time: 300
   #proxy-port: api.chatanywhere.com.cn#
-#  base-url: https://api.chatanywhere.com.cn
+  #base-url: https://api.chatanywhere.com.cn
 myconfig:
   salt: cywltxdy
 cc:
@@ -70,3 +70,6 @@ cc:
 forbidden:
   words:
     filepath: classpath:forbidden_words.txt
+server:
+  servlet:
+    context-path: /api
