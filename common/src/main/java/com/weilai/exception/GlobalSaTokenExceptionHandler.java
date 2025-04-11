@@ -50,7 +50,7 @@ public class GlobalSaTokenExceptionHandler {
             case NotLoginException.BE_REPLACED_MESSAGE -> "您已被顶下线";
             default -> "您的登录状态已过期，请重新登录";
         };
-        return Result.fail(String.valueOf(HttpStatus.UNAUTHORIZED.value()), errorMsg);
+        return Result.fail(HttpStatus.UNAUTHORIZED.value(), errorMsg);
     }
 
     /**
@@ -59,7 +59,7 @@ public class GlobalSaTokenExceptionHandler {
     @ExceptionHandler(NotPermissionException.class)
     public Result handleNotPermissionException(NotPermissionException e, HttpServletRequest request) {
         log.error("[{}] {}", request.getMethod(), request.getRequestURI(), e);
-        return Result.fail(String.valueOf(HttpStatus.FORBIDDEN.value()), "没有访问权限，请联系管理员授权");
+        return Result.fail(HttpStatus.FORBIDDEN.value(), "没有访问权限，请联系管理员授权");
     }
 
     /**
@@ -68,6 +68,6 @@ public class GlobalSaTokenExceptionHandler {
     @ExceptionHandler(NotRoleException.class)
     public Result handleNotRoleException(NotRoleException e, HttpServletRequest request) {
         log.error("[{}] {}", request.getMethod(), request.getRequestURI(), e);
-        return Result.fail(String.valueOf(HttpStatus.FORBIDDEN.value()), "没有访问权限，请联系管理员授权");
+        return Result.fail(HttpStatus.FORBIDDEN.value(), "没有访问权限，请联系管理员授权");
     }
 }

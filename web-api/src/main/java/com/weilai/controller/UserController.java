@@ -1,10 +1,16 @@
 package com.weilai.controller;
 
+import cn.dev33.satoken.stp.SaTokenInfo;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.common.CommonQuery;
 import com.weilai.common.Result;
 import com.weilai.entity.User;
+import com.weilai.exception.CustomException;
+import com.weilai.exception.ServiceException;
+import com.weilai.pojo.LoginReq;
 import com.weilai.pojo.Userpo;
 import com.weilai.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +29,28 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+
+    @PostMapping("/login")
+    public Result login(@RequestBody LoginReq req){
+        //判断用户名是否存在
+        User one = userService.getOne(Wrappers.<User>lambdaQuery().eq(User::getUsername, req.getUsername()));
+        if (one == null){
+            throw new CustomException(500,"用户名不存在");
+        }
+        //判断密码是否一致
+        if (!req.getPassword().equals(one.getPassword())){
+            throw new CustomException(500,"用户名或密码错误");
+        }
+        StpUtil.login(one.getUid());
+        SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
+        return Result.ok(tokenInfo.getTokenValue());
+    }
+    @PostMapping("/info")
+    public Result getUserInfo(){
+        long uid = StpUtil.getLoginIdAsLong();
+        User user = userService.getOneById((int) uid);
+        return Result.ok(user);
+    }
 //    @GetMapping()
 //    public Result getAllUser(){
 //        return Result.ok(userService.list());
