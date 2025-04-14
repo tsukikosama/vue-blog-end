@@ -1,6 +1,5 @@
 package com.weilai.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
@@ -15,6 +14,7 @@ import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
 import com.weilai.service.UserService;
 import com.weilai.utils.SystemConstants;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,12 +25,13 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@AllArgsConstructor
 public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements BlogService {
-    @Autowired
-    private TagService tagService;
+
+    private final TagService tagService;
 
     @Autowired
-    private UserService userService;
+    private final UserService userService;
     /**
      * 分页查询blog
      * @param current
@@ -49,7 +50,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
         List<Blog> blogs = records.stream().map((item) -> {
             //获取tid
-            String tid = item.getTid();
+            String tid = item.getTagId();
             //获取截取获取typeid然后去查询
             String[] split = tid.split(",");
             ArrayList<Integer> list = new ArrayList<>();
@@ -61,7 +62,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
 
             //通过uid去查询用户信息
-            User u = userService.getById(item.getUid());
+            User u = userService.getById(item.getUserId());
 
             return item;
         }).collect(Collectors.toList());
@@ -80,13 +81,13 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 //        System.out.println(page);
 //        System.out.println(count());
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(Blog::getTid,id);
+        wrapper.like(Blog::getId,id);
         page.setTotal(count(wrapper));
         List<Blog> records = page.getRecords();
 
         List<Blog> blogs = records.stream().map((item) -> {
             //获取tid
-            String tid = item.getTid();
+            String tid = item.getTagId();
             //获取截取获取typeid然后去查询
             String[] split = tid.split(",");
             ArrayList<Integer> list = new ArrayList<>();
@@ -122,7 +123,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         wrapper.orderByDesc(Blog::getVisit);
 //        QueryWrapper<Blog> f = new QueryWrapper<>();
 //        f.select();
-        wrapper.select(Blog::getBid,Blog::getTitle, Blog::getCreateDate);
+        wrapper.select(Blog::getId,Blog::getTitle, Blog::getCreateDate);
         wrapper.last("limit 5");
         List<Blog> list = list(wrapper);
         System.out.println(list);
@@ -146,7 +147,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Override
     public List<Blog> searchIdAndTitle() {
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.select(Blog::getTitle,Blog::getBid);
+        wrapper.select(Blog::getTitle,Blog::getId);
         List<Blog> list = this.list(wrapper);
         return list;
     }
@@ -159,7 +160,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Override
     public List<Blog> getBlogByUid(Integer uid) {
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Blog::getUid, uid).eq(Blog::getIsValid,1);
+        wrapper.eq(Blog::getId, uid).eq(Blog::getIsValid,1);
 
         List<Blog> list = list(wrapper);
 
@@ -174,11 +175,11 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         }
         Page<Blog> page = new Page<>(query.getPageNum(), query.getPageSize());
 
-        List<Blog> blogs = this.baseMapper.listByPage(query, wrapper);
-        //通过uid查询用户信息
-        totalBlog(blogs);
-        page.setRecords(blogs);
-        page.setTotal(blogs.size());
+//        List<Blog> blogs = this.baseMapper.listByPage(query, wrapper);
+//        //通过uid查询用户信息
+//        totalBlog(blogs);
+//        page.setRecords(blogs);
+//        page.setTotal(blogs.size());
 
         return page;
     }
@@ -194,7 +195,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     public void totalBlog(List<Blog> blogs) {
         blogs.stream().forEach(item ->{
-            User u = userService.getOneById(item.getUid());
+            User u = userService.getOneById(item.getId());
 //            Userpo userpo = BeanUtil.copyProperties(u, Userpo.class);
 //            item.setUser(userpo);
 //            String[] split = item.getTid().split(",");

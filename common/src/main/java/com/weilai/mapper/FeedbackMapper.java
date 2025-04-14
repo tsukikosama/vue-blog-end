@@ -1,14 +1,19 @@
 package com.weilai.mapper;
 
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.weilai.common.CommonQuery;
 import com.weilai.entity.Feedback;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
-
+/**
+ * <p>
+ *  Mapper 接口
+ * </p>
+ *
+ * @author miku
+ * @since 2025-04-14
+ */
 @Mapper
 public interface FeedbackMapper extends BaseMapper<Feedback> {
-    List<Feedback> listByPage(@Param("query") CommonQuery query);
+
 }

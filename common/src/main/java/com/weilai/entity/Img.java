@@ -1,23 +1,43 @@
 package com.weilai.entity;
 
-
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Img {
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author miku
+ * @since 2025-04-14
+ */
+@Getter
+@Setter
+@TableName("cc_img")
+
+public class Img implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    @TableField("url")
     private String url;
 
+
+    @TableField("type")
     private String type;
 
-    private String updateTime;
 
+    @TableField("update_time")
+    private LocalDateTime updateTime;
 }

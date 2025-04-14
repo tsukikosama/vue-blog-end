@@ -22,7 +22,7 @@ public class FeedbackController {
     }
     @PostMapping("/add")
     public Result addFeedBack(@RequestBody Feedback feedback){
-        feedback.setDatetime(DateUtil.now());
+
         boolean save = service.save(feedback);
         if(!save){
             return Result.fail("添加失败");

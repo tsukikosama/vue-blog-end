@@ -3,7 +3,6 @@ package com.weilai.common;
 import cn.hutool.core.io.file.FileNameUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.json.JSONUtil;
-import com.weilai.entity.EditImg;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -54,11 +53,11 @@ public class upload {
 
         String url = getUrl(file);
 
-        EditImg img = new EditImg();
-        img.setUrl(url);
-        img.setHref(url);
-
-        map.put("data",img);
+//        EditImg img = new EditImg();
+//        img.setUrl(url);
+//        img.setHref(url);
+//
+//        map.put("data",img);
         System.out.println(JSONUtil.toJsonStr(map));
         return JSONUtil.toJsonStr(map);
     }

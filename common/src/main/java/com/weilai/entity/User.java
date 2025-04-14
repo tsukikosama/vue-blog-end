@@ -1,27 +1,79 @@
 package com.weilai.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class User {
-    @TableId(value = "uid",type = IdType.AUTO)
-    private Integer uid;
+import lombok.Getter;
+import lombok.Setter;
+
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author miku
+ * @since 2025-04-14
+ */
+@Getter
+@Setter
+@TableName("cc_user")
+
+public class User implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+
+    @TableId(value = "id", type = IdType.AUTO)
+    private Long id;
+
+
+    @TableField("username")
     private String username;
 
+
+    @TableField("user_icon")
     private String userIcon;
+
+
+    @TableField("password")
     private String password;
-    private String createTime;
+
+
+    @TableField("create_time")
+    private LocalDate createTime;
+
+
+    @TableField("user_type")
     private Integer userType;
-    private String isValid;
+
+    @TableField("is_valid")
+    private Integer isValid;
+
+
+    @TableField("version")
     private Integer version;
+
+
+    @TableField("email")
     private String email;
+
+
+    @TableField("about")
     private String about;
+
+
+    @TableField("nickname")
     private String nickname;
+
+
+    @TableField("ban")
     private String ban;
+
+    @TableField("update_time")
+    private LocalDateTime updateTime;
 }

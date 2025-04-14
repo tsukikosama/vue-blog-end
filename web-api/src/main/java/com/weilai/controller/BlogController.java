@@ -3,7 +3,6 @@ package com.weilai.controller;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.dfa.WordTree;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import com.weilai.common.CommonQuery;
@@ -15,11 +14,11 @@ import com.weilai.entity.Type;
 import com.weilai.pojo.BlogPo;
 import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -29,18 +28,16 @@ import java.util.Set;
 @Slf4j
 @RestController
 @RequestMapping("/blog")
+@RequiredArgsConstructor
 public class BlogController {
-    @Autowired
-    private BlogService blogService;
 
-    @Autowired
-    private TagService tagService;
+    private final BlogService blogService;
 
-    /**
-     * 注入违禁词过滤器
-     */
-    @Autowired
-    private ForbiddenWordsLoader forbiddenWordsLoader;
+
+    private final TagService tagService;
+
+
+    private final ForbiddenWordsLoader forbiddenWordsLoader;
     @GetMapping("/{id}")
     public Result getBlog(@PathVariable("id")Integer id){
         Blog blog = blogService.getById(id);
@@ -63,7 +60,6 @@ public class BlogController {
     @PostMapping("/add")
     public Result addBlog(@RequestBody Blog blog){
         DateTime now = DateTime.now();
-        blog.setCreateDate(now.toDateStr());
         boolean match = forbiddenWordsLoader.checkWord(blog.getContent());
         if (match){
             return Result.fail("内容不合法请修改后再提交");
@@ -78,7 +74,7 @@ public class BlogController {
     public Result update(@RequestBody Blog blog){
         System.out.println(blog);
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Blog::getBid,blog.getBid());
+        wrapper.eq(Blog::getId,blog.getId());
         boolean success = blogService.update(blog,wrapper);
         if (!success){
             return Result.fail("更新失败");
@@ -133,7 +129,7 @@ public class BlogController {
         List<BlogPo> po = new ArrayList<>();
         list.stream().forEach((item) -> {
             BlogPo blogPo = BeanUtil.copyProperties(item, BlogPo.class);
-            String tid = item.getTid();
+            String tid = item.getTagId();
             List<Type> tags = tagService.getTagNameByTagid(tid);
             blogPo.setTagname(tags);
             po.add(blogPo);

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.common.CommonQuery;
 import com.weilai.entity.Friendlink;
-import com.weilai.entity.Review;
 import com.weilai.mapper.FriendLinkMapper;
 import com.weilai.service.FriendService;
 import org.springframework.stereotype.Service;
@@ -28,10 +27,10 @@ public class FriendLinkServiceImpl extends ServiceImpl<FriendLinkMapper, Friendl
 
         Page<Friendlink> page = new Page<>(query.getPageNum(), query.getPageSize());
 
-        List<Friendlink> blogs = this.baseMapper.listByPage(query);
-
-        page.setRecords(blogs);
-        page.setTotal(blogs.size());
+//        List<Friendlink> blogs = this.baseMapper.listByPage(query);
+//
+//        page.setRecords(blogs);
+//        page.setTotal(blogs.size());
         return page;
     }
 }

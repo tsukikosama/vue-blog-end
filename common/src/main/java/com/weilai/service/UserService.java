@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.weilai.common.CommonQuery;
 import com.weilai.entity.User;
+import com.weilai.request.RegisterUserRequest;
 
 
 public interface UserService extends IService<User>  {
@@ -13,11 +14,11 @@ public interface UserService extends IService<User>  {
 
     Boolean addUser(User user);
 
-    String register(User user, String code);
+    String register(RegisterUserRequest request);
 
     String registerForEmail(User user , String code);
 
-    User getOneById(Integer uid);
+    User getOneById(Long uid);
 
 
 

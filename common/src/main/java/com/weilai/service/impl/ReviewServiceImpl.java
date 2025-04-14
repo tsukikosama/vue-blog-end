@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.common.CommonQuery;
 import com.weilai.config.ForbiddenWordsLoader;
-import com.weilai.entity.Blog;
 import com.weilai.entity.Review;
 import com.weilai.entity.User;
 import com.weilai.mapper.ReviewMapper;
@@ -38,7 +37,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     private MailService mailService;
 
     @Autowired
-    private UserMapper mapper;
+    private UserMapper userMapper;
 
     @Autowired
     private ForbiddenWordsLoader forbiddenWordsLoader;
@@ -52,7 +51,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     public List<Review> findAllForBid(Integer bid) {
         LambdaQueryWrapper<Review> wrapper = new LambdaQueryWrapper<Review>();
 
-        wrapper.eq(Review::getBid, bid).eq(Review::getReply, 0);
+        wrapper.eq(Review::getBlogId, bid).eq(Review::getReply, 0);
         //全部的评论字段
         List<Review> list = list(wrapper);
         //获取全部的评论 查看他们是否有回复
@@ -63,11 +62,11 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
         for(Review r : list){
 
 
-            wrapper.eq(Review::getRid,r.getId()).orderBy(true,true,Review::getLikes);
+            wrapper.eq(Review::getReplyId,r.getId()).orderBy(true,true,Review::getLikes);
 
             replys = list(wrapper);
 
-            r.setReplays(replys);
+//            r.setReplyId(replys);
             wrapper.clear();
         }
         System.out.println(list);
@@ -113,7 +112,6 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
 
     @Override
     public String  addRevice(Review review) {
-        review.setTime(DateUtil.date().toString());
         review.setLikes(0);
         //
         Boolean check = forbiddenWordsLoader.checkWord(review.getContent());
@@ -124,12 +122,12 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
 
 
         //通过bid去查询用户
-        Integer uid = mapper.selectUserByBid(review.getBid());
+//        Integer uid = userMapper.selectUserByBid(review.getBlogId());
 
-        System.out.println("uid"+uid);
-        //通过这个uid去查询博客的邮箱;
-        User user = userService.getOneById(uid);
-        mailService.sendMsg(user.getEmail());
+//        System.out.println("uid"+uid);
+//        //通过这个uid去查询博客的邮箱;
+//        User user = userService.getOneById(uid);
+//        mailService.sendMsg(user.getEmail());
         //发送邮件提示有人评论了
         if(!flag){
             return "回复失败，请稍后再试";
@@ -141,7 +139,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     @Override
     public List<Review> getReplyByBid(Integer bid) {
         LambdaQueryWrapper<Review> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Review::getBid,bid);
+        wrapper.eq(Review::getBlogId,bid);
         List<Review> list = list(wrapper);
         return list;
     }
@@ -152,11 +150,11 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
 
         Page<Review> page = new Page<>(query.getPageNum(), query.getPageSize());
 
-        List<Review> blogs = this.baseMapper.listByPage(query, wrapper);
-        //通过uid查询用户信息
-        totalReview(blogs);
-        page.setRecords(blogs);
-        page.setTotal(blogs.size());
+//        List<Review> blogs = this.baseMapper.listByPage(query, wrapper);
+//        //通过uid查询用户信息
+//        totalReview(blogs);
+//        page.setRecords(blogs);
+//        page.setTotal(blogs.size());
         return page;
     }
 
@@ -168,8 +166,8 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     }
 
     public void totalReview(List<Review> list){
-        list.stream().forEach(item -> {
-            item.setUser(userService.getById(item.getUid()));
-        });
+//        list.stream().forEach(item -> {
+//            item.set(userService.getById(item.getUid()));
+//        });
     }
 }

@@ -1,10 +1,8 @@
 package com.weilai.controller;
 
 import cn.hutool.core.date.DateUtil;
-import cn.hutool.core.io.unit.DataUnit;
 import com.weilai.common.CommonQuery;
 import com.weilai.common.Result;
-import com.weilai.entity.Module;
 import com.weilai.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +30,6 @@ public class ModuleController {
 
     @PostMapping("/update")
     public Result updateModule(Module module){
-        module.setDate(DateUtil.now());
         boolean b = moduleService.saveOrUpdate(module);
         if (!b){
             return Result.ok("更新失败");

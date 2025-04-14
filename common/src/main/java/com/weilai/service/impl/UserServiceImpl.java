@@ -1,6 +1,5 @@
 package com.weilai.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -9,11 +8,12 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.common.CommonQuery;
 import com.weilai.entity.Code;
 import com.weilai.entity.User;
+import com.weilai.exception.CustomException;
 import com.weilai.mapper.UserMapper;
+import com.weilai.request.RegisterUserRequest;
 import com.weilai.service.CoderService;
 import com.weilai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -85,7 +85,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 //    }
     //查询user信息
     @Override
-    public Page<User> getUser(String username,Integer current) {
+    public Page<User> getUser(String username, Integer current) {
 
         Page<User> page = new Page<>(current,MAX_PAGE_SIZE);
         //
@@ -94,7 +94,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         if (username != null ){
             wrapper.like(User::getUsername,username);
         }
-
         page = page(page, wrapper);
 //        Page<Userpo> pagepo = new Page<>();
 //        BeanUtil.copyProperties(page,pagepo);
@@ -129,9 +128,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
             return false;
         }
         user.setUserType(1);
-        user.setIsValid("1");
+        user.setIsValid(1);
         DateTime now = DateTime.now();
-        user.setCreateTime(now.toDateStr());
+
         save(user);
         return true;
     }
@@ -139,24 +138,21 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     /**
      * 使用redis来实现注册功能  从redis中读取验证码实现注册功能
      * @param user
-     * @param code
      * @return
      */
     @Transactional
     @Override
-    public String register(User user, String code) {
-
+    public String register(RegisterUserRequest user) {
         //判断redis中是否有这个验证码
         String email = user.getEmail();
         if (!stringTemplate.hasKey(email)){
             //没有这个验证码就返回注册失败
-            return "验证码失效了请重新去获取吧";
+            throw new CustomException("验证码失效请重新获取");
         }
         //判断验证码是否一致
         String redisCode = stringTemplate.opsForValue().get(email);
-
-        if(!code.equals(redisCode)){
-            return "验证码错误";
+        if(!user.getCode().equals(redisCode)){
+            throw new CustomException("验证码错误");
         }
         //判断用户名是否存在
         String username = user.getUsername();
@@ -164,22 +160,18 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
         wrapper.eq(User::getUsername,username);
         User one = this.getOne(wrapper);
         if (one != null){
-            return "用户名存在请换一个吧";
+            throw new CustomException("用户名已存在请换一个吧");
         }
         //有验证码吧验证码从redis中删除
         stringTemplate.delete(email);
-//        System.out.println(user);
         //设置一些基本默认信息
         user.setUserIcon("http://139.159.252.234:8083/upload/5ee38a06-ff99-4092-8c36-b508db1eb6c5.jpg");
         user.setUserType(0);
-        user.setCreateTime( DateUtil.date().toString());
-        user.setIsValid("1");
-
+        user.setIsValid(1);
         //把用户命和密码注册
         Boolean flag = this.save(user);
-        System.out.println(flag);
         if (!flag){
-            return "注册失败";
+            throw new CustomException("注册失败，请稍后再试");
         }
         return "注册成功";
     }
@@ -227,7 +219,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
     }
 
     @Override
-    public User getOneById(Integer uid) {
+    public User getOneById(Long uid) {
         User user = this.getById(uid);
 
         return user;
@@ -283,10 +275,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 
         Page<User> page = new Page<>(query.getPageNum(), query.getPageSize());
         System.out.println(query);
-        List<User> user = this.baseMapper.listByPage(query);
-        //通过uid查询用户信息
-        page.setRecords(user);
-        page.setTotal(user.size());
+//        List<User> user = this.baseMapper.listByPage(query);
+//        //通过uid查询用户信息
+//        page.setRecords(user);
+//        page.setTotal(user.size());
         return page;
     }
 

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.entity.Type;
-import com.weilai.mapper.TagMapper;
+import com.weilai.mapper.TypeMapper;
 import com.weilai.service.TagService;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class TagServiceImpl extends ServiceImpl<TagMapper, Type> implements TagService {
+public class TagServiceImpl extends ServiceImpl<TypeMapper, Type> implements TagService {
 
 
     //通过页数来查询tag的数量

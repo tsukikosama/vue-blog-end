@@ -1,16 +1,19 @@
 package com.weilai.mapper;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.weilai.common.CommonQuery;
 import com.weilai.entity.Blog;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
-
-import java.util.List;
-
+/**
+ * <p>
+ *  Mapper 接口
+ * </p>
+ *
+ * @author miku
+ * @since 2025-04-14
+ */
 @Mapper
 public interface BlogMapper extends BaseMapper<Blog> {
-    List<Blog> listByPage(CommonQuery query, @Param("wrapper") LambdaQueryWrapper wrapper);
+
 }

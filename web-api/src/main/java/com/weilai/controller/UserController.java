@@ -2,17 +2,16 @@ package com.weilai.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
-import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.common.CommonQuery;
 import com.weilai.common.Result;
 import com.weilai.entity.User;
 import com.weilai.exception.CustomException;
-import com.weilai.exception.ServiceException;
 import com.weilai.pojo.LoginReq;
-import com.weilai.pojo.Userpo;
+import com.weilai.request.RegisterUserRequest;
 import com.weilai.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,7 +28,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
+    @ApiOperation("登录接口")
     @PostMapping("/login")
     public Result login(@RequestBody LoginReq req){
         //判断用户名是否存在
@@ -41,14 +40,15 @@ public class UserController {
         if (!req.getPassword().equals(one.getPassword())){
             throw new CustomException(500,"用户名或密码错误");
         }
-        StpUtil.login(one.getUid());
+        StpUtil.login(one.getId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return Result.ok(tokenInfo.getTokenValue());
     }
+    @ApiOperation("用户登录用户信息")
     @PostMapping("/info")
     public Result getUserInfo(){
         long uid = StpUtil.getLoginIdAsLong();
-        User user = userService.getOneById((int) uid);
+        User user = userService.getOneById(uid);
         return Result.ok(user);
     }
 //    @GetMapping()
@@ -65,11 +65,12 @@ public class UserController {
 ////        return Result.ok(token);
 ////    }
 
+    @ApiOperation("注册")
     @PostMapping("/register")
-    public Result registerUser(@RequestBody User user,@RequestParam("code")String code){
+    public Result registerUser(@RequestBody RegisterUserRequest request){
 
         //System.out.println(code);
-        String msg = userService.register(user,code);
+        String msg = userService.register(request);
 
         return Result.ok(msg);
     }
@@ -95,7 +96,7 @@ public class UserController {
     }
 
     @GetMapping("/getone")
-    public Result getOne(@RequestParam("id") Integer id){
+    public Result getOne(@RequestParam("id") Long id){
         User u = userService.getOneById(id);
         if(u == null){
             return Result.fail("用户名获取失败");
@@ -135,10 +136,9 @@ public class UserController {
     }
     @PostMapping("/add")
     public Result saveUser(@RequestBody User user){
-        user.setCreateTime(DateUtil.now());
         user.setAbout("这个人很懒什么都没有留下");
         user.setUserIcon(avatar);
-        user.setIsValid("1");
+        user.setIsValid(1);
 
         userService.saveOrUpdate(user);
         return Result.ok("保存成功");

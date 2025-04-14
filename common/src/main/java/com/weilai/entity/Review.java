@@ -3,30 +3,55 @@ package com.weilai.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.baomidou.mybatisplus.annotation.TableName;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
-import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Review {
+/**
+ * <p>
+ * 
+ * </p>
+ *
+ * @author miku
+ * @since 2025-04-14
+ */
+@Getter
+@Setter
+@TableName("cc_review")
+public class Review implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+
     @TableId(value = "id", type = IdType.AUTO)
-    private Integer id;
-    private String content;
-    private Integer reply;
-    private String time;
+    private Long id;
 
+
+    @TableField("content")
+    private String content;
+
+
+    @TableField("reply")
+    private Integer reply;
+
+    @TableField("create_time")
+    private LocalDateTime createTime;
+
+    @TableField("likes")
     private Integer likes;
-    private String username;
-    private Integer bid;
-    @TableField(exist = false)
-    private List<Review> replays;
-    private Integer rid;
-    private String usericon;
-    private Integer uid;
-    @TableField(exist = false)
-    private User user;
+
+
+    @TableField("blog_id")
+    private Long blogId;
+
+
+    @TableField("reply_id")
+    private Long replyId;
+
+
+    @TableField("user_id")
+    private Integer userId;
 }
