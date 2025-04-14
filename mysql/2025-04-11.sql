@@ -1,4 +1,5 @@
-ALTER TABLE `blog`.`cc_user`
+## 更新用户表
+ALTER TABLE `cc_user`
     CHANGE COLUMN `uid` `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id' FIRST,
     MODIFY COLUMN `username` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登录账号' AFTER `id`,
     MODIFY COLUMN `user_icon` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户头像' AFTER `username`,
