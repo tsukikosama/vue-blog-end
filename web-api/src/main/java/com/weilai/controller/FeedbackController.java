@@ -1,7 +1,6 @@
 package com.weilai.controller;
 
-import cn.hutool.core.date.DateUtil;
-import com.weilai.common.CommonQuery;
+import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.entity.Feedback;
 import com.weilai.service.FeedbackService;
@@ -37,7 +36,7 @@ public class FeedbackController {
     }
 
     @GetMapping("/list")
-    public Result getBlogByPage(CommonQuery query){
+    public Result getBlogByPage(PageQuery query){
         System.out.println(query);
         return Result.ok(service.listByPage(query));
     }

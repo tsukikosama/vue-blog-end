@@ -1,7 +1,6 @@
 package com.weilai.controller;
 
-import cn.hutool.core.date.DateUtil;
-import com.weilai.common.CommonQuery;
+import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.entity.Friendlink;
 import com.weilai.service.FriendService;
@@ -46,7 +45,7 @@ public class FriendLinkController {
         return Result.ok("删除成功");
     }
     @GetMapping("/list")
-    public Result list(CommonQuery query){
+    public Result list(PageQuery query){
         return Result.ok(service.listByPage(query));
     }
 }

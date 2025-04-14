@@ -73,3 +73,7 @@ ALTER TABLE `cc_type`
     MODIFY COLUMN `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT '主键' FIRST;
 ALTER TABLE `cc_user`
     MODIFY COLUMN `id` bigint(11) NOT NULL AUTO_INCREMENT COMMENT 'id' FIRST;
+
+### 更新用户字段
+ALTER TABLE `cc_user`
+    CHANGE COLUMN `user_icon` `avatar` varchar(128) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户头像' AFTER `username`;

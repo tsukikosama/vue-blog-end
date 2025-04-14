@@ -1,7 +1,6 @@
 package com.weilai.utils;
 
 import cn.hutool.core.util.StrUtil;
-import com.weilai.service.impl.CodeServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,8 +29,7 @@ public class MailService {
     @Autowired
     private JavaMailSenderImpl javaMailSender;
 
-    @Autowired
-    private CodeServiceImpl codeService;
+
 
     @Value("${spring.mail.username}")
     private String sendMailer;

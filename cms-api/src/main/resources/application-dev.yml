@@ -23,7 +23,7 @@ spring:
     #链接过期时间
     timeout: 10000
 server:
-  port: 9000
+  port: 9001
 miku:
   uploadurl: http://localhost:8085/img/
   localurl: G:/a_vue/nginx-1.23.4/html/img/

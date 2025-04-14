@@ -5,7 +5,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
-import com.weilai.common.CommonQuery;
+import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.config.ForbiddenWordsLoader;
 
@@ -16,7 +16,6 @@ import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -153,7 +152,7 @@ public class BlogController {
     }
 
     @GetMapping("/list")
-    public Result getBlogByPage(CommonQuery query){
+    public Result getBlogByPage(PageQuery query){
 
         return Result.ok(blogService.listByPage(query));
     }

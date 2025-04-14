@@ -1,7 +1,7 @@
 package com.weilai.controller;
 
 
-import com.weilai.common.CommonQuery;
+import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.entity.Review;
 import com.weilai.service.ReviewService;
@@ -87,7 +87,7 @@ public class ReviewController {
     }
 
     @GetMapping("/list")
-    public Result list(CommonQuery query){
+    public Result list(PageQuery query){
         return Result.ok(reviewService.listByPage(query));
     }
 }

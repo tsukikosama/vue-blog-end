@@ -1,7 +1,6 @@
 package com.weilai.controller;
 
-import cn.hutool.core.date.DateUtil;
-import com.weilai.common.CommonQuery;
+import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.service.ModuleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +37,7 @@ public class ModuleController {
     }
 
     @GetMapping("/list")
-    public Result getBlogByPage(CommonQuery query){
+    public Result getBlogByPage(PageQuery query){
         System.out.println(query);
         return Result.ok(moduleService.listByPage(query));
     }

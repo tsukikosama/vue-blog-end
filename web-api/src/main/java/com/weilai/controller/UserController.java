@@ -4,7 +4,7 @@ import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.weilai.common.CommonQuery;
+import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.entity.User;
 import com.weilai.exception.CustomException;
@@ -51,36 +51,25 @@ public class UserController {
         User user = userService.getOneById(uid);
         return Result.ok(user);
     }
-//    @GetMapping()
-//    public Result getAllUser(){
-//        return Result.ok(userService.list());
-//    }
-////    @PostMapping("/login")
-////    public Result login(@RequestBody User user){
-////        System.out.println(user);
-//////        Userpo token = userService.login(user);
-//////        if (token == null){
-//////            return Result.fail("用户名或者密码错误");
-//////        }
-////        return Result.ok(token);
-////    }
+
+    @ApiOperation("退出登录接口")
+    @PostMapping("/logout")
+    public Result logout(){
+        StpUtil.logout();
+        return Result.ok("退出成功");
+    }
+
 
     @ApiOperation("注册")
     @PostMapping("/register")
     public Result registerUser(@RequestBody RegisterUserRequest request){
-
-        //System.out.println(code);
         String msg = userService.register(request);
-
         return Result.ok(msg);
     }
 
     @GetMapping("/getall")
-    public Result getUser(@RequestParam(value = "search",required = false ,defaultValue = "") String username
-                          ,@RequestParam(value = "current",required = false,defaultValue = "1") Integer current
-    ){
+    public Result getUser(@RequestParam(value = "search",required = false ,defaultValue = "") String username,@RequestParam(value = "current",required = false,defaultValue = "1") Integer current){
         Page<User> u = userService.getUser(username,current);
-
         return Result.ok(u);
     }
     @PostMapping("/update")
@@ -124,7 +113,7 @@ public class UserController {
     }
 
     @GetMapping("/list")
-    public Result getBlogByPage(CommonQuery query){
+    public Result getBlogByPage(PageQuery query){
         System.out.println(query);
         return Result.ok(userService.listByPage(query));
     }
@@ -137,7 +126,7 @@ public class UserController {
     @PostMapping("/add")
     public Result saveUser(@RequestBody User user){
         user.setAbout("这个人很懒什么都没有留下");
-        user.setUserIcon(avatar);
+        user.setAvatar(avatar);
         user.setIsValid(1);
 
         userService.saveOrUpdate(user);
