@@ -4,13 +4,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.weilai.common.PageQuery;
 import com.weilai.entity.User;
+import com.weilai.request.QueryUserParamsRequest;
 import com.weilai.request.RegisterUserRequest;
+
+import java.util.List;
 
 
 public interface UserService extends IService<User>  {
 
 
-    Page<User> getUser(String username, Integer current);
+    Page<User> getUser(QueryUserParamsRequest request);
 
     Boolean addUser(User user);
 
@@ -24,4 +27,6 @@ public interface UserService extends IService<User>  {
 
 
     Page<User> listByPage(PageQuery query);
+
+    void resetPwd(List<Long> ids);
 }

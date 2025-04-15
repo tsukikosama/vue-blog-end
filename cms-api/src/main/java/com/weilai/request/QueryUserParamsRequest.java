@@ -5,7 +5,7 @@ import lombok.Data;
 
 @Data
 public class QueryUserParamsRequest extends PageQuery {
-    private String nickName;
+    private String nickname;
     private String email;
     private String ban;
     private String userType;

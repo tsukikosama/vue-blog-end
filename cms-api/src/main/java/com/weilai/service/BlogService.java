@@ -1,10 +1,13 @@
 package com.weilai.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.entity.Blog;
+import com.weilai.request.QueryBlogParamsRequest;
+import com.weilai.response.BlogRecordResponse;
 
 import java.util.List;
 
@@ -19,7 +22,7 @@ public interface BlogService extends IService<Blog> {
 
     List<Blog> getBlogByUid(Integer uid);
 
-    Page<Blog> listByPage(PageQuery query);
+    IPage<BlogRecordResponse> listByPage(QueryBlogParamsRequest query);
 
     List<Blog> listBlogs();
 

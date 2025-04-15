@@ -10,12 +10,15 @@ import com.weilai.exception.CustomException;
 import com.weilai.pojo.LoginReq;
 import com.weilai.request.QueryUserParamsRequest;
 import com.weilai.request.RegisterUserRequest;
+import com.weilai.request.SaveUserRequest;
 import com.weilai.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -70,7 +73,46 @@ public class UserController {
     @GetMapping("/list")
     public Result getUserList(QueryUserParamsRequest request){
         System.out.println(request);
-//        Page<User> user = userService.getUser(null, current);
-        return Result.ok("user");
+        Page<User> user = userService.getUser(request);
+        return Result.ok(user);
+    }
+
+    @ApiOperation("添加用户")
+    @PostMapping("/resetPwd")
+    public Result resetPwd(@RequestBody List<Long> ids){
+        userService.resetPwd(ids);
+//        Boolean addUser = userService.addUser(user);
+        return Result.ok("重置密码成功");
+    }
+
+    @ApiOperation("获取用户详情")
+    @GetMapping("/detail")
+    public Result getUserDetail(@RequestParam("id") Long id){
+        User oneById = userService.getOneById(id);
+        return Result.ok(oneById);
+    }
+
+    @ApiOperation("删除用户信息")
+    @PostMapping("/deleteBatch")
+    public Result getUserDetail(@RequestBody List<Long> id){
+        userService.remove(Wrappers.<User>lambdaQuery().in(User::getId,id));
+        return Result.ok("删除用户成功");
+    }
+
+    @ApiOperation("注册用户")
+    @PostMapping("/save")
+    public Result saveUser(@RequestBody SaveUserRequest request){
+        User user = new User();
+        user.setUsername(request.getUsername());
+        user.setPassword(request.getPassword());
+        user.setEmail(request.getEmail());
+        user.setAvatar(avatar);
+        user.setUserType(1);
+        user.setIsValid(1);
+        user.setVersion(1);
+        user.setBan("0");
+        user.setNickname(request.getUsername());
+        userService.save(user);
+        return Result.ok("注册成功");
     }
 }
