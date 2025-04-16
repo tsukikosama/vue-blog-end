@@ -25,5 +25,5 @@ spring:
 server:
   port: 9001
 miku:
-  uploadurl: http://localhost:8085/img/
-  localurl: G:/a_vue/nginx-1.23.4/html/img/
+  uploadurl: http://localhost:8085/upload/
+  localurl: D:/nginx-1.26.1/file/

@@ -1,10 +1,14 @@
 package com.weilai.service.impl;
 
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.entity.Type;
 import com.weilai.mapper.TypeMapper;
+import com.weilai.response.TypeResponse;
 import com.weilai.service.TagService;
 import org.springframework.stereotype.Service;
 
@@ -58,6 +62,13 @@ public class TagServiceImpl extends ServiceImpl<TypeMapper, Type> implements Tag
             types.add(tag);
         });
         return types;
+    }
+
+    @Override
+    public List<TypeResponse> selectList() {
+        List<Type> types = this.baseMapper.selectList(Wrappers.<Type>lambdaQuery().select(Type::getId, Type::getTagName));
+        List<TypeResponse> list = BeanUtil.copyToList(types, TypeResponse.class);
+        return list;
     }
 
 }

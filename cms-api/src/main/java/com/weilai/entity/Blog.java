@@ -1,9 +1,6 @@
 package com.weilai.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -47,8 +44,8 @@ public class Blog implements Serializable {
     private Integer isValid;
 
 
-    @TableField("create_date")
-    private LocalDate createDate;
+//    @TableField("create_date")
+//    private LocalDate createDate;
 
 
     @TableField("version")
@@ -75,10 +72,9 @@ public class Blog implements Serializable {
     private Integer state;
 
 
-    @TableField("create_time")
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
-
-    @TableField("update_time")
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 }

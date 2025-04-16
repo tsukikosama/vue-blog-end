@@ -1,7 +1,9 @@
 package com.weilai.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
@@ -13,10 +15,12 @@ import com.weilai.entity.Blog;
 import com.weilai.entity.Type;
 import com.weilai.pojo.BlogPo;
 import com.weilai.request.QueryBlogParamsRequest;
+import com.weilai.request.SaveBlogRequest;
 import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -57,6 +61,17 @@ public class BlogController {
         return  blogService.getBlogs(current);
     }
 
+    @PostMapping("/save")
+    public Result saveBlog(@RequestBody SaveBlogRequest res){
+        System.out.println(res);
+        Blog blog = BeanUtil.copyProperties(res, Blog.class);
+        blog.setVisit(0);
+        String result = StringUtils.join(res.getTagId(), ",");
+        blog.setTagId(result);
+        blog.setUserId(StpUtil.getLoginIdAsLong());
+        blogService.save(blog);
+        return Result.ok("保存成功");
+    }
     @PostMapping("/add")
     public Result addBlog(@RequestBody Blog blog){
         DateTime now = DateTime.now();

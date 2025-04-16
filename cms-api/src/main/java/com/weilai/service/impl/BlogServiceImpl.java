@@ -126,7 +126,7 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         wrapper.orderByDesc(Blog::getVisit);
 //        QueryWrapper<Blog> f = new QueryWrapper<>();
 //        f.select();
-        wrapper.select(Blog::getId,Blog::getTitle, Blog::getCreateDate);
+        wrapper.select(Blog::getId,Blog::getTitle, Blog::getCreateTime);
         wrapper.last("limit 5");
         List<Blog> list = list(wrapper);
         System.out.println(list);
