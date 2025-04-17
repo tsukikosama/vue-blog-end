@@ -2,8 +2,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://8.138.16.124:3306/blog?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
-    username: miku
+    url: jdbc:mysql://localhost:3306/blogtest?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
     password: 2270398619
   redis:
     database: 3

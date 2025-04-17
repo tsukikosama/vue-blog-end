@@ -72,28 +72,12 @@ public class BlogController {
         blogService.save(blog);
         return Result.ok("保存成功");
     }
-    @PostMapping("/add")
-    public Result addBlog(@RequestBody Blog blog){
-        DateTime now = DateTime.now();
-        boolean match = forbiddenWordsLoader.checkWord(blog.getContent());
-        if (match){
-            return Result.fail("内容不合法请修改后再提交");
-        }
-        boolean isSuccess = blogService.saveOrUpdate(blog);
-        if (!isSuccess){
-            return Result.fail("添加失败");
-        }
-        return Result.ok("添加成功");
-    }
     @PostMapping("/update")
-    public Result update(@RequestBody Blog blog){
-        System.out.println(blog);
-        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(Blog::getId,blog.getId());
-        boolean success = blogService.update(blog,wrapper);
-        if (!success){
-            return Result.fail("更新失败");
-        }
+    public Result update(@RequestBody SaveBlogRequest blog){
+        Blog b = BeanUtil.copyProperties(blog, Blog.class);
+        String result = StringUtils.join(blog, ",");
+        b.setTagId(result);
+        blogService.updateById(b);
         return Result.ok();
     }
 

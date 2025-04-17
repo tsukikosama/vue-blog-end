@@ -3,6 +3,7 @@ package com.weilai.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.common.Result;
 import com.weilai.entity.Type;
+import com.weilai.request.QueryTypeParamsRequest;
 import com.weilai.response.TypeResponse;
 import com.weilai.service.TagService;
 import io.swagger.annotations.ApiOperation;
@@ -25,17 +26,14 @@ public class TypeController {
         List<TypeResponse> list = tagService.selectList();
         return Result.ok(list);
     }
-//    @ApiOperation("标签分页")
-//    @GetMapping("page")
-//    public Result page(){
-////        tagService.page();
-//    }
-    @GetMapping()
-    public Result getTagsByCurrent(@RequestParam(value = "current",defaultValue = "1",required = false)Integer current){
 
-        Page<Type> page = tagService.getTagsPage(current);
-        return Result.ok(page);
+    @ApiOperation("分页查询")
+    @GetMapping("/page")
+    public Result page(QueryTypeParamsRequest request){
+
+        return Result.ok(tagService.page(request));
     }
+
 
     @GetMapping("/tagid")
     public Result getBlogByTagid(@RequestParam("tagid")Integer tagid){
@@ -44,7 +42,7 @@ public class TypeController {
 //        return Result.ok(list);
         return Result.ok();
     }
-    @PostMapping("/del")
+    @PostMapping("/delete")
     public Result delTag(@RequestParam("id") Integer id){
         boolean success = tagService.removeById(id);
         if(!success){
