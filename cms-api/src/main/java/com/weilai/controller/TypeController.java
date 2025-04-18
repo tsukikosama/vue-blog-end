@@ -30,33 +30,21 @@ public class TypeController {
     @ApiOperation("分页查询")
     @GetMapping("/page")
     public Result page(QueryTypeParamsRequest request){
-
         return Result.ok(tagService.page(request));
     }
 
 
-    @GetMapping("/tagid")
-    public Result getBlogByTagid(@RequestParam("tagid")Integer tagid){
-//        //通过tagid来查询对应的页数
-//        Page<Type> list = tagService.getBlogByTagid(tagid);
-//        return Result.ok(list);
-        return Result.ok();
-    }
+    @ApiOperation("删除标签")
     @PostMapping("/delete")
-    public Result delTag(@RequestParam("id") Integer id){
-        boolean success = tagService.removeById(id);
-        if(!success){
-            return Result.fail("输出失败");
-        }
+    public Result delTag(@RequestBody List<Long> ids){
+        tagService.removeBatchByIds(ids);
         return Result.ok("删除成功");
     }
+
+    @ApiOperation("添加标签")
     @PostMapping("add")
     public Result addTag(@RequestBody Type tagname){
-        System.out.println(tagname);
-        boolean success = tagService.saveOrUpdate(tagname);
-        if (!success){
-            return Result.fail("添加失败");
-        }
+        tagService.saveOrUpdate(tagname);
         return Result.ok("添加成功");
     }
 }

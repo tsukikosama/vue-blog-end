@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -26,6 +27,7 @@ public class Type implements Serializable {
 
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
+
 
 
     @TableField("tag_name")

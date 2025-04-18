@@ -1,6 +1,7 @@
 package com.weilai.service.impl;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.BeanUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -76,6 +77,9 @@ public class TagServiceImpl extends ServiceImpl<TypeMapper, Type> implements Tag
     public Page<TypeResponse> page(QueryTypeParamsRequest request) {
         Page p = new Page(request.getCurrent(),request.getPageSize());
         LambdaQueryWrapper<Type> wrapper = new LambdaQueryWrapper<>();
+        if (StrUtil.isNotBlank(request.getTagName())){
+            wrapper.eq(Type::getTagName,request.getTagName());
+        }
         Page page  = this.baseMapper.selectPage(p, wrapper);
         return page;
     }

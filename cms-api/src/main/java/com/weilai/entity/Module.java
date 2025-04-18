@@ -37,9 +37,6 @@ public class Module implements Serializable {
     @TableField("module_type")
     private Integer moduleType;
 
-    @TableField("date")
-    private String date;
-
 
     @TableField("create_time")
     private LocalDateTime createTime;

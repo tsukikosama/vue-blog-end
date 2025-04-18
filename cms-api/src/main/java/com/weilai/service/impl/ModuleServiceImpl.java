@@ -1,9 +1,12 @@
 package com.weilai.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.common.PageQuery;
 import com.weilai.mapper.ModuleMapper;
+import com.weilai.request.QueryModuleParamsRequest;
+import com.weilai.response.TimeLineResponse;
 import com.weilai.service.ModuleService;
 import org.springframework.stereotype.Service;
 
@@ -33,5 +36,13 @@ public class ModuleServiceImpl extends ServiceImpl<ModuleMapper, Module> impleme
 //        page.setRecords(modules);
 //        page.setTotal(modules.size());
         return null;
+    }
+
+    @Override
+    public Page<TimeLineResponse> page(QueryModuleParamsRequest request) {
+        Page<TimeLineResponse> p = new Page(request.getCurrent(),request.getPageSize());
+        LambdaQueryWrapper<Module> wrapper = new LambdaQueryWrapper<>();
+        Page<TimeLineResponse> page = this.baseMapper.selectMyPage(p, wrapper);
+        return page;
     }
 }
