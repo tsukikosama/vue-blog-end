@@ -1,6 +1,8 @@
 package com.weilai.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.common.PageQuery;
@@ -9,6 +11,9 @@ import com.weilai.config.ForbiddenWordsLoader;
 import com.weilai.entity.Review;
 import com.weilai.mapper.ReviewMapper;
 import com.weilai.mapper.UserMapper;
+import com.weilai.request.QueryReviewParamsRequest;
+import com.weilai.response.ReviewResponse;
+import com.weilai.response.TimeLineResponse;
 import com.weilai.service.ReviewService;
 import com.weilai.service.UserService;
 import com.weilai.utils.MailService;
@@ -21,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.weilai.enums.ReviewEnum.CHILD_REVIEW;
+import static com.weilai.enums.ReviewEnum.MAIN_REVIEW;
 import static com.weilai.utils.RedisConstants.IS_LIKE;
 
 @Service
@@ -162,6 +169,24 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
         List<Review> list = list();
         totalReview(list);
         return list;
+    }
+
+    @Override
+    public Page<ReviewResponse> page(QueryReviewParamsRequest request) {
+        Page<ReviewResponse> p = new Page(request.getCurrent(),request.getPageSize());
+        LambdaQueryWrapper<Review> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(Review::getReviewType,MAIN_REVIEW.getCode());
+        if (request.getId() != null){
+            wrapper.eq(Review::getBlogId,request.getId());
+        }
+
+        Page<ReviewResponse> page = this.baseMapper.selectMyPage(p, wrapper);
+        page.getRecords().stream().forEach(item -> {
+            List<ReviewResponse> reviews = this.baseMapper.selectChildrenList(Wrappers
+                    .<Review>lambdaQuery().eq(Review::getReviewType, CHILD_REVIEW.getCode()).eq(Review::getReplyId, item.getId()));
+            item.setReplyList(reviews);
+        });
+        return page;
     }
 
     public void totalReview(List<Review> list){

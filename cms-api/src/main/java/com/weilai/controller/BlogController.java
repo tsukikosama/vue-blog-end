@@ -37,7 +37,6 @@ public class BlogController {
 
     private final BlogService blogService;
 
-
     private final TagService tagService;
 
 
@@ -151,8 +150,8 @@ public class BlogController {
         return Result.ok(set);
     }
 
-    @GetMapping("/list")
-    public Result getBlogByPage(QueryBlogParamsRequest query){
+    @GetMapping("/page")
+    public Result page(QueryBlogParamsRequest query){
 
         return Result.ok(blogService.listByPage(query));
     }

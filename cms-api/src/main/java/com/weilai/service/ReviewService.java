@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.weilai.common.PageQuery;
 import com.weilai.entity.Review;
+import com.weilai.request.QueryReviewParamsRequest;
+import com.weilai.response.ReviewResponse;
 
 import java.util.List;
 import java.util.Set;
@@ -22,4 +24,6 @@ public interface ReviewService extends IService<Review> {
     Page<Review> listByPage(PageQuery query);
 
     List<Review> listPage();
+
+    Page<ReviewResponse> page(QueryReviewParamsRequest request);
 }

@@ -54,4 +54,6 @@ public class Review implements Serializable {
 
     @TableField("user_id")
     private Integer userId;
+
+    private Integer reviewType;
 }

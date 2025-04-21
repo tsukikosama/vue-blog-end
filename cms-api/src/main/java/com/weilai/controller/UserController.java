@@ -16,9 +16,13 @@ import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+import static com.weilai.utils.RedisConstants.LOGIN_TOKEN;
 
 @RestController
 @RequestMapping("/user")
@@ -29,6 +33,8 @@ public class UserController {
     private String avatar;
 
     private final UserService userService;
+
+    private final StringRedisTemplate redisTemplate;
 
     @ApiOperation("登录接口")
     @PostMapping("/login")
@@ -42,7 +48,6 @@ public class UserController {
         if (!req.getPassword().equals(one.getPassword())){
             throw new CustomException(500,"用户名或密码错误");
         }
-        StpUtil.login(one.getId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return Result.ok(tokenInfo.getTokenValue());
     }
@@ -51,6 +56,8 @@ public class UserController {
     @PostMapping("/info")
     public Result getUserInfo(){
         long uid = StpUtil.getLoginIdAsLong();
+        //如果uid等于null看看redis中是否存在
+
         User user = userService.getOneById(uid);
         return Result.ok(user);
     }

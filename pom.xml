@@ -25,7 +25,7 @@
         <mybatis.plus.version>3.5.7</mybatis.plus.version>
         <spring.boot.version>2.7.8</spring.boot.version>
         <hutool.all.version>5.8.16</hutool.all.version>
-        <sa.token.version>1.37.0</sa.token.version>
+        <sa.token.version>1.42.0</sa.token.version>
         <fastjson.version>1.2.79</fastjson.version>
     </properties>
     <dependencies>
@@ -109,6 +109,11 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-spring-boot-starter</artifactId>
+            <version>${sa.token.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-redis-template</artifactId>
             <version>${sa.token.version}</version>
         </dependency>
         <dependency>
