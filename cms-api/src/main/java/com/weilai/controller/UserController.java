@@ -48,6 +48,7 @@ public class UserController {
         if (!req.getPassword().equals(one.getPassword())){
             throw new CustomException(500,"用户名或密码错误");
         }
+        StpUtil.login(one.getId());
         SaTokenInfo tokenInfo = StpUtil.getTokenInfo();
         return Result.ok(tokenInfo.getTokenValue());
     }

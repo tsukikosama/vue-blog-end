@@ -16,5 +16,5 @@ public class ReviewResponse {
     private String nickname;
     private Integer reviewType;
     private String avatar;
-    private List<ReviewResponse> replyList;
+    private List<ReviewResponse> children;
 }

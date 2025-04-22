@@ -9,6 +9,7 @@ import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.config.ForbiddenWordsLoader;
 import com.weilai.entity.Review;
+import com.weilai.exception.CustomException;
 import com.weilai.mapper.ReviewMapper;
 import com.weilai.mapper.UserMapper;
 import com.weilai.request.QueryReviewParamsRequest;
@@ -57,7 +58,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     public List<Review> findAllForBid(Integer bid) {
         LambdaQueryWrapper<Review> wrapper = new LambdaQueryWrapper<Review>();
 
-        wrapper.eq(Review::getBlogId, bid).eq(Review::getReply, 0);
+//        wrapper.eq(Review::getBlogId, bid).eq(Review::getReply, 0);
         //全部的评论字段
         List<Review> list = list(wrapper);
         //获取全部的评论 查看他们是否有回复
@@ -184,9 +185,23 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
         page.getRecords().stream().forEach(item -> {
             List<ReviewResponse> reviews = this.baseMapper.selectChildrenList(Wrappers
                     .<Review>lambdaQuery().eq(Review::getReviewType, CHILD_REVIEW.getCode()).eq(Review::getReplyId, item.getId()));
-            item.setReplyList(reviews);
+            item.setChildren(reviews);
         });
         return page;
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        //获取评论判断是子评论还是主评论
+        Review review = this.baseMapper.selectById(id);
+        if (review == null){
+            throw new CustomException("评论不存在");
+        }
+        if (review.getReviewType() == MAIN_REVIEW.getCode()){
+            //主评论先见下面的子评论全部删除
+            this.baseMapper.delete(Wrappers.<Review>lambdaQuery().eq(Review::getReplyId,review.getId()));
+        }
+        this.baseMapper.delete(Wrappers.<Review>lambdaQuery().eq(Review::getId,id));
     }
 
     public void totalReview(List<Review> list){

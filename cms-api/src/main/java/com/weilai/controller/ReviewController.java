@@ -20,4 +20,9 @@ public class ReviewController {
         return Result.ok(reviewService.page(request));
     }
 
+    @PostMapping("/delete/{id}")
+    public Result delete(@PathVariable("id") Long id){
+        reviewService.deleteById(id);
+        return Result.ok("删除成功");
+    }
 }

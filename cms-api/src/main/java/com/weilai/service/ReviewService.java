@@ -26,4 +26,6 @@ public interface ReviewService extends IService<Review> {
     List<Review> listPage();
 
     Page<ReviewResponse> page(QueryReviewParamsRequest request);
+
+    void deleteById(Long id);
 }

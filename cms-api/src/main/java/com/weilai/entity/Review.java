@@ -34,8 +34,8 @@ public class Review implements Serializable {
     private String content;
 
 
-    @TableField("reply")
-    private Integer reply;
+//    @TableField("reply")
+//    private Integer reply;
 
     @TableField("create_time")
     private LocalDateTime createTime;
