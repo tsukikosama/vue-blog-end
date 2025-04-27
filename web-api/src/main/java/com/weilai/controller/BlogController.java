@@ -12,6 +12,7 @@ import com.weilai.config.ForbiddenWordsLoader;
 import com.weilai.entity.Blog;
 import com.weilai.entity.Type;
 import com.weilai.pojo.BlogPo;
+import com.weilai.request.QueryBlogParamsRequest;
 import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -45,15 +46,9 @@ public class BlogController {
         return Result.ok(blog);
     }
     //通过tagid来查询页面  可以不穿就是查询所有
-    @GetMapping("/pages")
-    public Result getBlogs(@RequestParam(value = "current",defaultValue = "1",required = false)Integer current,
-        @RequestParam(value = "tagid",required = false)Integer id
-    ){
-        if (id != null){
-            return  blogService.getBlogs(current,id);
-        }else{
-        }
-        return  blogService.getBlogs(current);
+    @GetMapping("/page")
+    public Result page(QueryBlogParamsRequest query){
+        return Result.ok(blogService.listByPage(query));
     }
 
     @PostMapping("/add")
@@ -151,11 +146,7 @@ public class BlogController {
         return Result.ok(set);
     }
 
-    @GetMapping("/list")
-    public Result getBlogByPage(PageQuery query){
 
-        return Result.ok(blogService.listByPage(query));
-    }
 
     @GetMapping()
     public Result getBlogs(){

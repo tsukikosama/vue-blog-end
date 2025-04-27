@@ -5,17 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class PageQuery {
     /**
      * 当前页数
      */
-    private Integer current;
+    private Integer current = 1;
     /**
      * 每页大小
      */
-    private Integer pageSize;
+    private Integer pageSize = 10;
     /**
      * 关键词
      */

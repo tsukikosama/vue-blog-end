@@ -1,6 +1,7 @@
 package com.weilai.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -10,6 +11,8 @@ import com.weilai.entity.Blog;
 import com.weilai.entity.Type;
 import com.weilai.entity.User;
 import com.weilai.mapper.BlogMapper;
+import com.weilai.request.QueryBlogParamsRequest;
+import com.weilai.response.BlogRecordResponse;
 import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
 import com.weilai.service.UserService;
@@ -168,26 +171,14 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     }
 
     @Override
-    public Page<Blog> listByPage(PageQuery query) {
-        return null;
+    public IPage<BlogRecordResponse> listByPage(QueryBlogParamsRequest query) {
+        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+
+        Page<BlogRecordResponse> page = new Page<>(query.getCurrent(), query.getPageSize());
+        IPage<BlogRecordResponse> blogPage = this.baseMapper.selectMyPage(page, wrapper);
+        return blogPage;
     }
 
-//    @Override
-//    public Page<Blog> listByPage(PageQuery query ) {
-//        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-////        if (query.getAuthor() != null){
-////            wrapper.eq(User::getNickname,query.getAuthor());
-////        }
-//        Page<Blog> page = new Page<>(query.getPageNum(), query.getPageSize());
-//
-////        List<Blog> blogs = this.baseMapper.listByPage(query, wrapper);
-////        //通过uid查询用户信息
-////        totalBlog(blogs);
-////        page.setRecords(blogs);
-////        page.setTotal(blogs.size());
-//
-//        return page;
-//    }
 
     @Override
     public List<Blog> listBlogs() {

@@ -41,24 +41,7 @@ public class BlogController {
 
 
     private final ForbiddenWordsLoader forbiddenWordsLoader;
-    @GetMapping("/{id}")
-    public Result getBlog(@PathVariable("id")Integer id){
-        Blog blog = blogService.getById(id);
-        blog.setVisit(blog.getVisit()+1);
-        blogService.updateById(blog);
-        return Result.ok(blog);
-    }
-    //通过tagid来查询页面  可以不穿就是查询所有
-    @GetMapping("/pages")
-    public Result getBlogs(@RequestParam(value = "current",defaultValue = "1",required = false)Integer current,
-                           @RequestParam(value = "tagid",required = false)Integer id
-    ){
-        if (id != null){
-            return  blogService.getBlogs(current,id);
-        }else{
-        }
-        return  blogService.getBlogs(current);
-    }
+
 
     @PostMapping("/save")
     public Result saveBlog(@RequestBody SaveBlogRequest res){
@@ -71,83 +54,11 @@ public class BlogController {
         blogService.save(blog);
         return Result.ok("保存成功");
     }
-    @PostMapping("/update")
-    public Result update(@RequestBody SaveBlogRequest blog){
-        Blog b = BeanUtil.copyProperties(blog, Blog.class);
-        String result = StringUtils.join(blog, ",");
-        b.setTagId(result);
-        blogService.updateById(b);
-        return Result.ok();
-    }
 
-    @PostMapping("/del")
-    public Result del(@RequestParam("bid") Integer bid){
-
-        boolean success = blogService.removeById(bid);
-        if (!success){
-            return Result.fail("删除失败");
-        }
+    @PostMapping("/delete")
+    public Result deleteBlog(@RequestBody List<Long> ids){
+        blogService.removeBatchByIds(ids);
         return Result.ok("删除成功");
-    }
-
-    /**
-     * 获取热门博客
-     * @return
-     */
-    @GetMapping("/hotblog")
-    public Result hot(){
-        List<Blog> list = blogService.hot();
-        return Result.ok(list);
-    }
-
-    /**
-     * 通过搜索查询博客
-     * @return
-     */
-    @GetMapping("search")
-    public Result SearchBlog(@RequestParam("key") String key){
-        List<Blog> list = blogService.search(key);
-        return Result.ok(list);
-    }
-
-    @GetMapping("searchtitle")
-    public Result SearchBolgIdAndTitle(){
-        List<Blog> list = blogService.searchIdAndTitle();
-        return Result.ok(list);
-    }
-
-    /**
-     * 通过用户id来查询对应用户发布的博客
-     * @param uid 用户id
-     * @return
-     */
-    @GetMapping("myblog")
-    public Result GetBlogByUid(@RequestParam("uid") Integer uid){
-        List<Blog> list = blogService.getBlogByUid(uid);
-        List<BlogPo> po = new ArrayList<>();
-        list.stream().forEach((item) -> {
-            BlogPo blogPo = BeanUtil.copyProperties(item, BlogPo.class);
-            String tid = item.getTagId();
-            List<Type> tags = tagService.getTagNameByTagid(tid);
-            blogPo.setTagname(tags);
-            po.add(blogPo);
-        });
-        return Result.ok(po);
-    }
-
-
-    @GetMapping("randomblog")
-    public Result RandomBlog(){
-
-        List<Blog> list = blogService.list();
-
-        Set<Blog> set = new HashSet<Blog>();
-        int index ;
-        while(set.size() < 5){
-            index = RandomUtil.randomInt(0,list.size()-1);
-            set.add(list.get(index));
-        }
-        return Result.ok(set);
     }
 
     @GetMapping("/page")

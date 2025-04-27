@@ -2,7 +2,7 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/blogtest?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://localhost:3306/blogtest?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 2270398619
   redis:
@@ -22,8 +22,6 @@ spring:
         max-active: 8
     #链接过期时间
     timeout: 10000
-server:
-  port: 9000
 miku:
   uploadurl: http://localhost:8085/img/
   localurl: G:/a_vue/nginx-1.23.4/html/img/

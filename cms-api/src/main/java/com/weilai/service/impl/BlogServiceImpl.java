@@ -174,16 +174,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     public IPage<BlogRecordResponse> listByPage(QueryBlogParamsRequest query ) {
 
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-//        if (query.getAuthor() != null){
-//            wrapper.eq(User::getNickname,query.getAuthor());
-//        }
+
         Page<BlogRecordResponse> page = new Page<>(query.getCurrent(), query.getPageSize());
         IPage<BlogRecordResponse> blogPage = baseMapper.selectMyPage(page, wrapper);
-//        List<Blog> blogs = this.baseMapper.listByPage(query, wrapper);
-//        //通过uid查询用户信息
-//        totalBlog(blogs);
-//        page.setRecords(blogs);
-//        page.setTotal(blogs.size());
 
         return blogPage;
     }
