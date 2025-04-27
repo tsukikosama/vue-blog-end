@@ -189,6 +189,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         return list;
     }
 
+    @Override
+    public BlogRecordResponse getDetail(Integer id) {
+        BlogRecordResponse res = this.baseMapper.getDetailById(id);
+        return res;
+    }
+
     public void totalBlog(List<Blog> blogs) {
         blogs.stream().forEach(item ->{
             User u = userService.getOneById(item.getId());

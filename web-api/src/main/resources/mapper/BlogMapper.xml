@@ -6,4 +6,8 @@
         select cb.*,cu.nickname,cu.avatar from cc_blog cb left join cc_user cu on cb.user_id = cu.id
             ${ew.customSqlSegment}
     </select>
+    <select id="getDetailById" resultType="com.weilai.response.BlogRecordResponse">
+        select cb.*,cu.nickname,cu.avatar from cc_blog cb left join cc_user cu on cb.user_id = cu.id
+        where cb.id = #{id}
+    </select>
 </mapper>

@@ -81,4 +81,7 @@ public class Blog implements Serializable {
 
     @TableField("update_time")
     private LocalDateTime updateTime;
+
+    @TableField("likes")
+    private Long likes;
 }

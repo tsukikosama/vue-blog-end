@@ -26,6 +26,8 @@ public interface BlogService extends IService<Blog> {
 
     List<Blog> listBlogs();
 
+    BlogRecordResponse getDetail(Integer id);
+
 
 //    List<Blog> randomBlog();
     //Page<Blog> getBlogs(Integer current, Integer type);

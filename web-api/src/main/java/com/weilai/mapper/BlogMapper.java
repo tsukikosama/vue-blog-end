@@ -22,4 +22,6 @@ import org.apache.ibatis.annotations.Param;
 public interface BlogMapper extends BaseMapper<Blog> {
 
     IPage<BlogRecordResponse> selectMyPage(@Param("page") Page<BlogRecordResponse> page,@Param("ew") LambdaQueryWrapper<Blog> wrapper);
+
+    BlogRecordResponse getDetailById(Integer id);
 }

@@ -15,16 +15,11 @@ import java.util.Set;
 @RequestMapping("/review")
 public class ReviewController {
 
-
-
     @Autowired
     private ReviewService reviewService;
 
-
-
     @PostMapping("/addreview")
     public Result addReview(@RequestBody Review review){
-//        System.out.println(review);
         String msg = reviewService.addRevice(review);
 
         if (msg.equals("有非法词")){

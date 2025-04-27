@@ -15,7 +15,7 @@ public class TagController {
     @Autowired
     private TagService tagService;
 
-    @GetMapping("/tags")
+    @GetMapping("/list")
     public Result getTags(){
         return Result.ok(tagService.list());
     }
