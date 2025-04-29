@@ -1,18 +1,22 @@
 package com.weilai.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.entity.Blog;
+import com.weilai.entity.BlogLikeEntity;
 import com.weilai.entity.Type;
 import com.weilai.entity.User;
 import com.weilai.mapper.BlogMapper;
 import com.weilai.request.QueryBlogParamsRequest;
 import com.weilai.response.BlogRecordResponse;
+import com.weilai.service.BlogLikeService;
 import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
 import com.weilai.service.UserService;
@@ -20,11 +24,15 @@ import com.weilai.utils.SystemConstants;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.weilai.constante.RedisConstante.BLOG_LIKE;
 
 @Slf4j
 @Service
@@ -35,6 +43,10 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Autowired
     private final UserService userService;
+
+    private final BlogLikeService blogLikeService;
+
+    private final StringRedisTemplate stringRedisTemplate;
     /**
      * 分页查询blog
      * @param current
@@ -176,6 +188,28 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
         Page<BlogRecordResponse> page = new Page<>(query.getCurrent(), query.getPageSize());
         IPage<BlogRecordResponse> blogPage = this.baseMapper.selectMyPage(page, wrapper);
+        //变量全部的博客记录判断用户是否点赞过
+        for (BlogRecordResponse blogRecordResponse : blogPage.getRecords().stream().collect(Collectors.toList())) {
+            BlogLikeEntity one = blogLikeService.getOne(Wrappers.<BlogLikeEntity>lambdaQuery().eq(BlogLikeEntity::getBlogId, blogRecordResponse.getId()).eq(BlogLikeEntity::getUserId, StpUtil.getLoginIdAsLong()));
+            if (one != null){
+                blogRecordResponse.setIsLike(1);
+            }else{
+                //如果为空 就代表数据库中没有存储改记录 查看redis中是否有存储
+                Boolean member = stringRedisTemplate.opsForSet().isMember(BLOG_LIKE + blogRecordResponse.getId(), StpUtil.getLoginId());
+                System.out.println(member);
+                if (member){
+                    //如果改记录存在在redis中
+                    blogRecordResponse.setIsLike(1);
+                }else{
+                    blogRecordResponse.setIsLike(0);
+                }
+
+            }
+            //判断redis中没有存入数据库的点赞书数量
+            Set<String> members = stringRedisTemplate.opsForSet().members(BLOG_LIKE + blogRecordResponse.getId());
+            blogRecordResponse.setLikes(blogRecordResponse.getLikes() + members.size());
+        }
+
         return blogPage;
     }
 

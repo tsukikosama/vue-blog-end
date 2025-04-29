@@ -40,7 +40,6 @@ public class BlogController {
     private final ForbiddenWordsLoader forbiddenWordsLoader;
     @GetMapping("/detail/{id}")
     public Result getBlog(@PathVariable("id")Integer id){
-
         return Result.ok(blogService.getDetail(id));
     }
     //通过tagid来查询页面  可以不穿就是查询所有

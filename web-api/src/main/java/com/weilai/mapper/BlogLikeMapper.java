@@ -3,6 +3,7 @@ package com.weilai.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.weilai.entity.BlogLikeEntity;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -12,6 +13,7 @@ import com.weilai.entity.BlogLikeEntity;
  * @author miku
  * @since 2025-04-27
  */
+@Mapper
 public interface BlogLikeMapper extends BaseMapper<BlogLikeEntity> {
 
 }

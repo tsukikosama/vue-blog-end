@@ -15,3 +15,6 @@ CREATE TABLE `cc_blog_like`
     `create_time` datetime NOT NULL COMMENT '点赞时间',
     PRIMARY KEY (`id`)
 );
+## 设置组件自动增长
+ALTER TABLE `cc_blog_like`
+    MODIFY COLUMN `id` bigint NOT NULL AUTO_INCREMENT COMMENT '组件' FIRST;

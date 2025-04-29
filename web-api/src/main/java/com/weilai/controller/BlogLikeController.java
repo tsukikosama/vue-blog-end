@@ -3,9 +3,14 @@ package com.weilai.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.weilai.common.Result;
+import com.weilai.entity.BlogLikeEntity;
+import com.weilai.service.BlogLikeService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
@@ -30,9 +35,10 @@ public class BlogLikeController {
     @PostMapping("/like/{id}")
     public Result like(@PathVariable("id") Long id){
         //获取用户id
-        long userId = StpUtil.getLoginIdAsLong();
+        Object userId = StpUtil.getLoginId();
         //判断用户是否点赞过该博客
         Set<String> members = stringRedisTemplate.opsForSet().members(BLOG_LIKE + id);
+        System.out.println(members.contains(userId));
         if (members.contains(userId)){
             //如果用户点赞过就从redis中移除该记录
             stringRedisTemplate.opsForSet().remove(BLOG_LIKE + id,userId);
@@ -47,6 +53,8 @@ public class BlogLikeController {
                 stringRedisTemplate.opsForSet().add(BLOG_LIKE + id,userId+"");
             }
         }
-        return Result.ok("点赞成功");
+        return Result.ok();
     }
+
+
 }

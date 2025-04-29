@@ -17,4 +17,5 @@ public class BlogRecordResponse {
     private String nickname;
     private String avatar;
     private Long likes;
+    private Integer isLike;
 }

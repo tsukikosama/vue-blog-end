@@ -45,7 +45,7 @@ public class UserController {
         return Result.ok(tokenInfo.getTokenValue());
     }
     @ApiOperation("用户登录用户信息")
-    @PostMapping("/info")
+    @GetMapping("/info")
     public Result getUserInfo(){
         long uid = StpUtil.getLoginIdAsLong();
         User user = userService.getOneById(uid);
