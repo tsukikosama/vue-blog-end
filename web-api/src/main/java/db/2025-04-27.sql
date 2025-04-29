@@ -18,3 +18,6 @@ CREATE TABLE `cc_blog_like`
 ## 设置组件自动增长
 ALTER TABLE `cc_blog_like`
     MODIFY COLUMN `id` bigint NOT NULL AUTO_INCREMENT COMMENT '组件' FIRST;
+## 移除博客表中的点赞数量
+ALTER TABLE `blogtest`.`cc_blog`
+    DROP COLUMN `likes`;
