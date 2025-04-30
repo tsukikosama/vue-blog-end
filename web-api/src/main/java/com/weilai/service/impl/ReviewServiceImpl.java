@@ -1,5 +1,6 @@
 package com.weilai.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -110,6 +111,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
 
     @Override
     public String  addRevice(Review review) {
+        long loginIdAsLong = StpUtil.getLoginIdAsLong();
         review.setLikes(0);
         //
         Boolean check = forbiddenWordsLoader.checkWord(review.getContent());
@@ -117,20 +119,6 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
             return "有非法词";
         }
         boolean flag = this.save(review);
-
-
-        //通过bid去查询用户
-//        Integer uid = userMapper.selectUserByBid(review.getBlogId());
-
-//        System.out.println("uid"+uid);
-//        //通过这个uid去查询博客的邮箱;
-//        User user = userService.getOneById(uid);
-//        mailService.sendMsg(user.getEmail());
-        //发送邮件提示有人评论了
-        if(!flag){
-            return "回复失败，请稍后再试";
-        }
-
         return "回复成功";
     }
 

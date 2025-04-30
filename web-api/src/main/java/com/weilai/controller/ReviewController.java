@@ -18,15 +18,15 @@ public class ReviewController {
     @Autowired
     private ReviewService reviewService;
 
-    @PostMapping("/addreview")
+    /**
+     * 评论接口
+     * @param review
+     * @return
+     */
+    @PostMapping("/reply")
     public Result addReview(@RequestBody Review review){
-        String msg = reviewService.addRevice(review);
-
-        if (msg.equals("有非法词")){
-            return Result.fail("有非法词");
-        }
-
-        return Result.ok(msg);
+        reviewService.addRevice(review);
+        return Result.ok("评论成功");
     }
     @PostMapping("delreview")
     public Result delReview(@RequestParam("rid") Integer rid){
@@ -85,4 +85,6 @@ public class ReviewController {
     public Result list(PageQuery query){
         return Result.ok(reviewService.listByPage(query));
     }
+
+
 }

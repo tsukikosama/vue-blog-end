@@ -196,14 +196,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
             }else{
                 //如果为空 就代表数据库中没有存储改记录 查看redis中是否有存储
                 Boolean member = stringRedisTemplate.opsForSet().isMember(BLOG_LIKE + blogRecordResponse.getId(), StpUtil.getLoginId());
-                System.out.println(member);
                 if (member){
                     //如果改记录存在在redis中
                     blogRecordResponse.setIsLike(1);
                 }else{
                     blogRecordResponse.setIsLike(0);
                 }
-
             }
             //判断redis中没有存入数据库的点赞书数量
             Set<String> members = stringRedisTemplate.opsForSet().members(BLOG_LIKE + blogRecordResponse.getId());
