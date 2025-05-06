@@ -1,9 +1,13 @@
 package com.weilai.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.weilai.common.PageQuery;
 import com.weilai.entity.Review;
+import com.weilai.request.QueryReviewParamsRequest;
+import com.weilai.request.ReplyRequest;
+import com.weilai.response.ReviewResponse;
 
 import java.util.List;
 import java.util.Set;
@@ -15,11 +19,13 @@ public interface ReviewService extends IService<Review> {
 
     Set<String> likes(String bid, String uid);
 
-    String addRevice(Review review);
+    String addRevice(ReplyRequest review);
 
     List<Review> getReplyByBid(Integer bid);
 
     Page<Review> listByPage(PageQuery query);
 
     List<Review> listPage();
+
+    IPage<ReviewResponse> pageByBlogId(QueryReviewParamsRequest request);
 }

@@ -1,15 +1,24 @@
 package com.weilai.controller;
 
 
+import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
 import com.weilai.entity.Review;
+import com.weilai.request.QueryReviewParamsRequest;
+import com.weilai.request.ReplyRequest;
+import com.weilai.response.BlogRecordResponse;
+import com.weilai.response.ReviewResponse;
 import com.weilai.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Set;
+
+import static com.weilai.enums.ReviewEnum.CHILD_REVIEW;
+import static com.weilai.enums.ReviewEnum.MAIN_REVIEW;
 
 @RestController
 @RequestMapping("/review")
@@ -20,12 +29,12 @@ public class ReviewController {
 
     /**
      * 评论接口
-     * @param review
+     * @param request
      * @return
      */
     @PostMapping("/reply")
-    public Result addReview(@RequestBody Review review){
-        reviewService.addRevice(review);
+    public Result addReview(@RequestBody ReplyRequest request){
+        reviewService.addRevice(request);
         return Result.ok("评论成功");
     }
     @PostMapping("delreview")
@@ -86,5 +95,11 @@ public class ReviewController {
         return Result.ok(reviewService.listByPage(query));
     }
 
+
+    @GetMapping("/page")
+    public Result page(QueryReviewParamsRequest request){
+        IPage<ReviewResponse> page  = reviewService.pageByBlogId(request);
+        return Result.ok(page);
+    }
 
 }

@@ -2,13 +2,20 @@ package com.weilai.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.common.PageQuery;
-import com.weilai.config.ForbiddenWordsLoader;
+import com.weilai.entity.Blog;
 import com.weilai.entity.Review;
 import com.weilai.mapper.ReviewMapper;
 import com.weilai.mapper.UserMapper;
+import com.weilai.request.QueryReviewParamsRequest;
+import com.weilai.request.ReplyRequest;
+import com.weilai.response.BlogRecordResponse;
+import com.weilai.response.ReviewResponse;
 import com.weilai.service.ReviewService;
 import com.weilai.service.UserService;
 import com.weilai.utils.MailService;
@@ -21,6 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import static com.weilai.enums.ReviewEnum.CHILD_REVIEW;
+import static com.weilai.enums.ReviewEnum.MAIN_REVIEW;
 import static com.weilai.utils.RedisConstants.IS_LIKE;
 
 @Service
@@ -38,8 +47,6 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private ForbiddenWordsLoader forbiddenWordsLoader;
 
     /**
      * 通过博客的id来查询所有的评论
@@ -110,15 +117,21 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     }
 
     @Override
-    public String  addRevice(Review review) {
-        long loginIdAsLong = StpUtil.getLoginIdAsLong();
+    public String  addRevice(ReplyRequest request) {
+        Review review = new Review();
         review.setLikes(0);
-        //
-        Boolean check = forbiddenWordsLoader.checkWord(review.getContent());
-        if (check){
-            return "有非法词";
+        review.setContent(request.getContent());
+        review.setBlogId(request.getBlogId());
+        review.setUserId(StpUtil.getLoginIdAsLong());
+        //判断是否有评论id
+        if (request.getReplyId() != null){
+            //有评论id代表是回复
+            review.setReviewType(CHILD_REVIEW.getCode());
+            review.setReplyId(request.getReplyId());
+        }else{
+            review.setReviewType(MAIN_REVIEW.getCode());
         }
-        boolean flag = this.save(review);
+        this.baseMapper.insert(review);
         return "回复成功";
     }
 
@@ -149,6 +162,21 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
         List<Review> list = list();
         totalReview(list);
         return list;
+    }
+
+    @Override
+    public IPage<ReviewResponse> pageByBlogId(QueryReviewParamsRequest query) {
+        Page<ReviewResponse> page = new Page<>(query.getCurrent(), query.getPageSize());
+        QueryWrapper<Blog> wrapper = new QueryWrapper<>();
+        wrapper.eq(query.getId() != null,"cr.blog_id",query.getId());
+        wrapper.eq("cr.review_type",MAIN_REVIEW.getCode());
+        IPage<ReviewResponse> blogPage = this.baseMapper.selectMyPage(page, wrapper);
+        for (ReviewResponse item : blogPage.getRecords()){
+            //获取全部的子评论
+           List<ReviewResponse> list =  this.baseMapper.selectChildList(item.getId());
+           item.setChildList(list);
+        }
+        return blogPage;
     }
 
     public void totalReview(List<Review> list){

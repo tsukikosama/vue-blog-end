@@ -1,9 +1,6 @@
 package com.weilai.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,7 +34,7 @@ public class Review implements Serializable {
     @TableField("reply")
     private Integer reply;
 
-    @TableField("create_time")
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     @TableField("likes")
@@ -53,5 +50,8 @@ public class Review implements Serializable {
 
 
     @TableField("user_id")
-    private Integer userId;
+    private Long userId;
+
+    @TableField("review_type")
+    private Integer reviewType;
 }

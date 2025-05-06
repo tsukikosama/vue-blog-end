@@ -17,6 +17,7 @@ public class ReviewController {
 
     @GetMapping("/page")
     public Result page(QueryReviewParamsRequest request){
+        System.out.println(request);
         return Result.ok(reviewService.page(request));
     }
 

@@ -7,7 +7,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
-import com.weilai.config.ForbiddenWordsLoader;
 
 import com.weilai.entity.Blog;
 import com.weilai.entity.Type;
@@ -37,7 +36,6 @@ public class BlogController {
     private final TagService tagService;
 
 
-    private final ForbiddenWordsLoader forbiddenWordsLoader;
     @GetMapping("/detail/{id}")
     public Result getBlog(@PathVariable("id")Integer id){
         return Result.ok(blogService.getDetail(id));
@@ -51,10 +49,6 @@ public class BlogController {
     @PostMapping("/add")
     public Result addBlog(@RequestBody Blog blog){
         DateTime now = DateTime.now();
-        boolean match = forbiddenWordsLoader.checkWord(blog.getContent());
-        if (match){
-            return Result.fail("内容不合法请修改后再提交");
-        }
         boolean isSuccess = blogService.saveOrUpdate(blog);
         if (!isSuccess){
             return Result.fail("添加失败");

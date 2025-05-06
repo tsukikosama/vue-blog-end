@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
-import com.weilai.config.ForbiddenWordsLoader;
+//import com.weilai.config.ForbiddenWordsLoader;
 
 import com.weilai.entity.Blog;
 import com.weilai.entity.Type;
@@ -40,7 +40,6 @@ public class BlogController {
     private final TagService tagService;
 
 
-    private final ForbiddenWordsLoader forbiddenWordsLoader;
 
 
     @PostMapping("/save")
