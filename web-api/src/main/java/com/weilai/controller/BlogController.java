@@ -126,6 +126,10 @@ public class BlogController {
         return Result.ok(list);
     }
 
+    /**
+     * 查看最近的博客
+     * @return
+     */
     @GetMapping("/recentBlog")
     public Result getRecentBlog(){
         List<RecentBlogResponse> res = blogService.getRecentBlog();

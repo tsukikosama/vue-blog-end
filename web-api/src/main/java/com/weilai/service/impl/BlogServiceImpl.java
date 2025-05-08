@@ -1,7 +1,9 @@
 package com.weilai.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -29,6 +31,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -184,9 +187,13 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
 
     @Override
     public IPage<BlogRecordResponse> listByPage(QueryBlogParamsRequest query) {
-        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        if (query.getTagIds() != null){
-//            wrapper.in()
+        QueryWrapper<Blog> wrapper = new QueryWrapper<>();
+        if (StrUtil.isNotBlank(query.getTagId())){
+            String[] split = query.getTagId().split(",");
+            wrapper.in("cbt.tag_id", Arrays.asList(split));
+        }
+        if (StrUtil.isNotBlank(query.getKey())){
+            wrapper.like("cb.title",query.getKey());
         }
         Page<BlogRecordResponse> page = new Page<>(query.getCurrent(), query.getPageSize());
         IPage<BlogRecordResponse> blogPage = this.baseMapper.selectMyPage(page, wrapper);

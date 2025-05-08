@@ -5,6 +5,7 @@
     <select id="selectMyPage" resultType="com.weilai.response.BlogRecordResponse">
         select cb.id,cb.title,cb.picture,cb.content,cb.tag_id,cb.user_id,cu.nickname,cu.avatar,count(cbl.id) as likes from cc_blog cb left join cc_user cu on cb.user_id = cu.id
             left join cc_blog_like cbl on cbl.blog_id = cb.id
+            left join cc_blog_type cbt on cb.id = cbt.blog_id
             ${ew.customSqlSegment}
         GROUP BY cb.id
     </select>
