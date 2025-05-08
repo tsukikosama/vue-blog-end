@@ -13,8 +13,8 @@ import com.weilai.response.RecentBlogResponse;
 import java.util.List;
 
 public interface BlogService extends IService<Blog> {
-    Result getBlogs(Integer current);
-    Result getBlogs(Integer current,Integer id);
+//    Result getBlogs(Integer current);
+//    Result getBlogs(Integer current,Integer id);
     List<Blog> hot();
 
     List<Blog> search(String key);

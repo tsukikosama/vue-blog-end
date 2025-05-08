@@ -49,11 +49,7 @@ public class BlogController {
 
     @PostMapping("/add")
     public Result addBlog(@RequestBody Blog blog){
-        DateTime now = DateTime.now();
-        boolean isSuccess = blogService.saveOrUpdate(blog);
-        if (!isSuccess){
-            return Result.fail("添加失败");
-        }
+        blogService.save(blog);
         return Result.ok("添加成功");
     }
     @PostMapping("/update")
@@ -104,24 +100,7 @@ public class BlogController {
         return Result.ok(list);
     }
 
-    /**
-     * 通过用户id来查询对应用户发布的博客
-     * @param uid 用户id
-     * @return
-     */
-    @GetMapping("myblog")
-    public Result GetBlogByUid(@RequestParam("uid") Integer uid){
-        List<Blog> list = blogService.getBlogByUid(uid);
-        List<BlogPo> po = new ArrayList<>();
-        list.stream().forEach((item) -> {
-            BlogPo blogPo = BeanUtil.copyProperties(item, BlogPo.class);
-            String tid = item.getTagId();
-            List<Type> tags = tagService.getTagNameByTagid(tid);
-            blogPo.setTagname(tags);
-            po.add(blogPo);
-        });
-        return Result.ok(po);
-    }
+
 
 
     @GetMapping("randomblog")
@@ -152,4 +131,5 @@ public class BlogController {
         List<RecentBlogResponse> res = blogService.getRecentBlog();
         return Result.ok(res);
     }
+
 }

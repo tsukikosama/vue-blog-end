@@ -55,10 +55,6 @@ public class Blog implements Serializable {
     private Integer version;
 
 
-    @TableField("tag_id")
-    private String tagId;
-
-
     @TableField("visit")
     private Integer visit;
 

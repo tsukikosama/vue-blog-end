@@ -5,5 +5,5 @@ import lombok.Data;
 
 @Data
 public class QueryBlogParamsRequest extends PageQuery {
-
+    private String tagIds;
 }

@@ -53,80 +53,80 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
      * @param current
      * @return
      */
-    @Override
-    public Result getBlogs(Integer current) {
-        //查询所有blog
-        Page<Blog> page = query().page(new Page<>(current, SystemConstants.BLOG_PAGE_SIZE));
-        //获取当前页数
+//    @Override
+//    public Result getBlogs(Integer current) {
+//        //查询所有blog
+//        Page<Blog> page = query().page(new Page<>(current, SystemConstants.BLOG_PAGE_SIZE));
+//        //获取当前页数
+////        List<Blog> records = page.getRecords();
+////        System.out.println(page);
+////        System.out.println(count());
+//        page.setTotal(count());
 //        List<Blog> records = page.getRecords();
-//        System.out.println(page);
-//        System.out.println(count());
-        page.setTotal(count());
-        List<Blog> records = page.getRecords();
-
-        List<Blog> blogs = records.stream().map((item) -> {
-            //获取tid
-            String tid = item.getTagId();
-            //获取截取获取typeid然后去查询
-            String[] split = tid.split(",");
-            ArrayList<Integer> list = new ArrayList<>();
-            for (String k : split) {
-                list.add(Integer.parseInt(k));
-            }
-            //通过typeid查询type
-            List<Type> types = tagService.listByIds(list).stream().collect(Collectors.toList());
-
-
-            //通过uid去查询用户信息
-            User u = userService.getById(item.getUserId());
-
-            return item;
-        }).collect(Collectors.toList());
-        //把封装好的对象存入页面
-        page.setRecords(blogs);
-        return Result.ok(page);
-    }
-    //通过id来查询不同的类型
-    @Override
-    public Result getBlogs(Integer current, Integer id) {
-        //查询所有blog
-        Page<Blog> page = query().like("tid",id.toString()).page(new Page<>(current, SystemConstants.BLOG_PAGE_SIZE));
-
-        //获取当前页数
-//        List<Blog> records = page.getRecords();
-//        System.out.println(page);
-//        System.out.println(count());
-        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-        wrapper.like(Blog::getId,id);
-        page.setTotal(count(wrapper));
-        List<Blog> records = page.getRecords();
-
-        List<Blog> blogs = records.stream().map((item) -> {
-            //获取tid
-            String tid = item.getTagId();
-            //获取截取获取typeid然后去查询
-            String[] split = tid.split(",");
-            ArrayList<Integer> list = new ArrayList<>();
-            for (String k : split) {
-                list.add(Integer.parseInt(k));
-            }
-            //通过typeid查询type
-            List<Type> types = tagService.listByIds(list).stream().collect(Collectors.toList());
-//            item.setTag(types);
+//
+//        List<Blog> blogs = records.stream().map((item) -> {
+//            //获取tid
+//            String tid = item.getTagId();
+//            //获取截取获取typeid然后去查询
+//            String[] split = tid.split(",");
+//            ArrayList<Integer> list = new ArrayList<>();
+//            for (String k : split) {
+//                list.add(Integer.parseInt(k));
+//            }
+//            //通过typeid查询type
+//            List<Type> types = tagService.listByIds(list).stream().collect(Collectors.toList());
+//
 //
 //            //通过uid去查询用户信息
-//            User u = userService.getById(item.getUid());
-//            Userpo userpo = BeanUtil.copyProperties(u, Userpo.class);
-//            item.setUser(userpo);
-            return item;
-        }).collect(Collectors.toList());
-
-        //通过uid把用户的信息存进去
-
-        //把封装好的对象存入页面
-        page.setRecords(blogs);
-        return Result.ok(page);
-    }
+//            User u = userService.getById(item.getUserId());
+//
+//            return item;
+//        }).collect(Collectors.toList());
+//        //把封装好的对象存入页面
+//        page.setRecords(blogs);
+//        return Result.ok(page);
+//    }
+    //通过id来查询不同的类型
+//    @Override
+//    public Result getBlogs(Integer current, Integer id) {
+//        //查询所有blog
+//        Page<Blog> page = query().like("tid",id.toString()).page(new Page<>(current, SystemConstants.BLOG_PAGE_SIZE));
+//
+//        //获取当前页数
+////        List<Blog> records = page.getRecords();
+////        System.out.println(page);
+////        System.out.println(count());
+//        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
+//        wrapper.like(Blog::getId,id);
+//        page.setTotal(count(wrapper));
+//        List<Blog> records = page.getRecords();
+//
+//        List<Blog> blogs = records.stream().map((item) -> {
+//            //获取tid
+//            String tid = item.getTagId();
+//            //获取截取获取typeid然后去查询
+//            String[] split = tid.split(",");
+//            ArrayList<Integer> list = new ArrayList<>();
+//            for (String k : split) {
+//                list.add(Integer.parseInt(k));
+//            }
+//            //通过typeid查询type
+//            List<Type> types = tagService.listByIds(list).stream().collect(Collectors.toList());
+////            item.setTag(types);
+////
+////            //通过uid去查询用户信息
+////            User u = userService.getById(item.getUid());
+////            Userpo userpo = BeanUtil.copyProperties(u, Userpo.class);
+////            item.setUser(userpo);
+//            return item;
+//        }).collect(Collectors.toList());
+//
+//        //通过uid把用户的信息存进去
+//
+//        //把封装好的对象存入页面
+//        page.setRecords(blogs);
+//        return Result.ok(page);
+//    }
 
     /**
      * 获取热门博客
@@ -142,7 +142,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
         wrapper.select(Blog::getId,Blog::getTitle, Blog::getCreateDate);
         wrapper.last("limit 5");
         List<Blog> list = list(wrapper);
-        System.out.println(list);
         return list;
     }
 
@@ -186,7 +185,9 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Override
     public IPage<BlogRecordResponse> listByPage(QueryBlogParamsRequest query) {
         LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-
+        if (query.getTagIds() != null){
+//            wrapper.in()
+        }
         Page<BlogRecordResponse> page = new Page<>(query.getCurrent(), query.getPageSize());
         IPage<BlogRecordResponse> blogPage = this.baseMapper.selectMyPage(page, wrapper);
         //变量全部的博客记录判断用户是否点赞过

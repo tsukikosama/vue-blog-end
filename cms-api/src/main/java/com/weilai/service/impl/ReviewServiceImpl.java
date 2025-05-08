@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.common.PageQuery;
 import com.weilai.common.Result;
-import com.weilai.config.ForbiddenWordsLoader;
+
 import com.weilai.entity.Review;
 import com.weilai.exception.CustomException;
 import com.weilai.mapper.ReviewMapper;
@@ -46,8 +46,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private ForbiddenWordsLoader forbiddenWordsLoader;
+
 
     /**
      * 通过博客的id来查询所有的评论
@@ -120,11 +119,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     @Override
     public String  addRevice(Review review) {
         review.setLikes(0);
-        //
-        Boolean check = forbiddenWordsLoader.checkWord(review.getContent());
-        if (check){
-            return "有非法词";
-        }
+
         boolean flag = this.save(review);
 
 
