@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.weilai.common.PageQuery;
 import com.weilai.entity.User;
 import com.weilai.request.RegisterUserRequest;
+import com.weilai.response.UserMainInfoResponse;
 
 
 public interface UserService extends IService<User>  {
@@ -24,4 +25,7 @@ public interface UserService extends IService<User>  {
 
 
     Page<User> listByPage(PageQuery query);
+
+    UserMainInfoResponse getMainInfo();
+
 }

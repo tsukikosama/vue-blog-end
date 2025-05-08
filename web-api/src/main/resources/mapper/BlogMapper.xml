@@ -12,4 +12,8 @@
         select cb.*,cu.nickname,cu.avatar from cc_blog cb left join cc_user cu on cb.user_id = cu.id
         where cb.id = #{id}
     </select>
+    <select id="getRecentBlog" resultType="com.weilai.response.RecentBlogResponse">
+        select cb.id,cb.title,cu.nickname,cu.avatar,cb.create_time as createTime from cc_blog cb left join cc_user cu on cb.user_id = cu.id
+        order by cu.create_time desc limit 1,5
+    </select>
 </mapper>

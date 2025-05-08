@@ -1,5 +1,6 @@
 package com.weilai.service.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.date.DateTime;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -10,6 +11,7 @@ import com.weilai.entity.User;
 import com.weilai.exception.CustomException;
 import com.weilai.mapper.UserMapper;
 import com.weilai.request.RegisterUserRequest;
+import com.weilai.response.UserMainInfoResponse;
 import com.weilai.service.CoderService;
 import com.weilai.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -277,6 +279,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper,User> implements Use
 //        page.setRecords(user);
 //        page.setTotal(user.size());
         return null;
+    }
+
+    @Override
+    public UserMainInfoResponse getMainInfo() {
+        long userId = StpUtil.getLoginIdAsLong();
+        UserMainInfoResponse record = this.baseMapper.getMainInfo(userId);
+        System.out.println(record);
+        return record;
     }
 
 

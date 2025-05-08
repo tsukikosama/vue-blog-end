@@ -10,6 +10,7 @@ import com.weilai.entity.User;
 import com.weilai.exception.CustomException;
 import com.weilai.pojo.LoginReq;
 import com.weilai.request.RegisterUserRequest;
+import com.weilai.response.UserMainInfoResponse;
 import com.weilai.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
@@ -93,20 +94,6 @@ public class UserController {
         return Result.ok(u);
     }
 
-//    @GetMapping("/ban")
-//    public Result banUser(@RequestParam("email") String email){
-//        //通过邮箱来查询对应的用户
-//        Userpo userpo = userService.banUser(email);
-//        return Result.ok("禁用成功");
-//    }
-//    @PostMapping("/unban")
-//    public Result unBan(@RequestParam("email")String email,@RequestParam("uid") Integer uid){
-//        Userpo userpo = userService.unBan(email,uid);
-//        if (userpo == null){
-//            return Result.fail("解封失败");
-//        }
-//        return Result.ok(userpo);
-//    }
     @GetMapping("/all")
     public Result list(){
         return Result.ok(userService.list());
@@ -131,5 +118,11 @@ public class UserController {
 
         userService.saveOrUpdate(user);
         return Result.ok("保存成功");
+    }
+
+    @GetMapping("/mainInfo")
+    public Result getMainInfo(){
+        UserMainInfoResponse user = userService.getMainInfo();
+        return Result.ok(user);
     }
 }

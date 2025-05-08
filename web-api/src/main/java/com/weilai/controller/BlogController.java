@@ -12,6 +12,7 @@ import com.weilai.entity.Blog;
 import com.weilai.entity.Type;
 import com.weilai.pojo.BlogPo;
 import com.weilai.request.QueryBlogParamsRequest;
+import com.weilai.response.RecentBlogResponse;
 import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
 import lombok.RequiredArgsConstructor;
@@ -144,5 +145,11 @@ public class BlogController {
         List<Blog> list = blogService.listBlogs();
 
         return Result.ok(list);
+    }
+
+    @GetMapping("/recentBlog")
+    public Result getRecentBlog(){
+        List<RecentBlogResponse> res = blogService.getRecentBlog();
+        return Result.ok(res);
     }
 }

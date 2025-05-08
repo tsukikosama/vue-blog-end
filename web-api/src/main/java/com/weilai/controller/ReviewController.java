@@ -9,6 +9,7 @@ import com.weilai.entity.Review;
 import com.weilai.request.QueryReviewParamsRequest;
 import com.weilai.request.ReplyRequest;
 import com.weilai.response.BlogRecordResponse;
+import com.weilai.response.MainReplyResponse;
 import com.weilai.response.ReviewResponse;
 import com.weilai.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -100,6 +101,12 @@ public class ReviewController {
     public Result page(QueryReviewParamsRequest request){
         IPage<ReviewResponse> page  = reviewService.pageByBlogId(request);
         return Result.ok(page);
+    }
+
+    @GetMapping("/mainPage")
+    public Result getMainPage(){
+        List<MainReplyResponse> list = reviewService.getMainReply();
+        return Result.ok(list);
     }
 
 

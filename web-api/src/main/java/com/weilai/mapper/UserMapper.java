@@ -2,7 +2,9 @@ package com.weilai.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.weilai.entity.User;
+import com.weilai.response.UserMainInfoResponse;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 
 /**
@@ -16,4 +18,5 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
 
+    UserMainInfoResponse getMainInfo(@Param("id") Long id);
 }

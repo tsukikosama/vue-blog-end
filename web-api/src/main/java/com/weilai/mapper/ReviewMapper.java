@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.entity.Blog;
 import com.weilai.entity.Review;
 import com.weilai.response.BlogRecordResponse;
+import com.weilai.response.MainReplyResponse;
 import com.weilai.response.ReviewResponse;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,6 @@ public interface ReviewMapper extends BaseMapper<Review> {
     IPage<ReviewResponse> selectMyPage(@Param("page") Page<ReviewResponse> page, @Param("ew") QueryWrapper<Blog> wrapper);
 
     List<ReviewResponse> selectChildList(@Param("id")Long id);
+
+    List<MainReplyResponse> getMainReply();
 }

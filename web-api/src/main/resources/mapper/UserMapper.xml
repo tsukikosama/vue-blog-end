@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weilai.mapper.UserMapper">
+
+
+    <select id="getMainInfo" resultType="com.weilai.response.UserMainInfoResponse">
+        SELECT u.*,
+               count.totalCount as blogCount,
+               count.weekCount as weekCount,
+               count.monthCount as monthCount
+        FROM cc_user u
+                 LEFT JOIN (
+            SELECT b.user_id,
+                   COUNT(*) AS totalCount,
+                   SUM(YEARWEEK(b.create_date, 1) = YEARWEEK(NOW(), 1)) AS weekCount,
+                   SUM(DATE_FORMAT(b.create_date, '%Y-%m') = DATE_FORMAT(NOW(), '%Y-%m')) AS monthCount
+            FROM cc_blog b
+            GROUP BY b.user_id
+        ) AS count ON u.id = count.user_id
+        WHERE u.id = #{id};
+
+    </select>
+</mapper>

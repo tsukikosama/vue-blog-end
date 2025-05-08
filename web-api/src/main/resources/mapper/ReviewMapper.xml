@@ -10,6 +10,10 @@
         select cr.*,cu.avatar,cu.nickname from cc_review cr  left join cc_user cu on cr.user_id = cu.id
             where cr.reply_id = ${id}
     </select>
+    <select id="getMainReply" resultType="com.weilai.response.MainReplyResponse">
+        select cr.*,cu.nickname from cc_review cr left join cc_user cu on cr.user_id = cu.id
+        order by cr.create_time asc  limit 1,5
+    </select>
 
 
 </mapper>

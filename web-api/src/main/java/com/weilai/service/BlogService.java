@@ -8,6 +8,7 @@ import com.weilai.common.Result;
 import com.weilai.entity.Blog;
 import com.weilai.request.QueryBlogParamsRequest;
 import com.weilai.response.BlogRecordResponse;
+import com.weilai.response.RecentBlogResponse;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ public interface BlogService extends IService<Blog> {
     List<Blog> listBlogs();
 
     BlogRecordResponse getDetail(Integer id);
+
+    List<RecentBlogResponse> getRecentBlog();
 
 
 //    List<Blog> randomBlog();

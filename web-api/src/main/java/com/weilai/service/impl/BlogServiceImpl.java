@@ -16,6 +16,7 @@ import com.weilai.entity.User;
 import com.weilai.mapper.BlogMapper;
 import com.weilai.request.QueryBlogParamsRequest;
 import com.weilai.response.BlogRecordResponse;
+import com.weilai.response.RecentBlogResponse;
 import com.weilai.service.BlogLikeService;
 import com.weilai.service.BlogService;
 import com.weilai.service.TagService;
@@ -225,6 +226,12 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     public BlogRecordResponse getDetail(Integer id) {
         BlogRecordResponse res = this.baseMapper.getDetailById(id);
         return res;
+    }
+
+    @Override
+    public  List<RecentBlogResponse> getRecentBlog() {
+
+        return this.baseMapper.getRecentBlog();
     }
 
     public void totalBlog(List<Blog> blogs) {

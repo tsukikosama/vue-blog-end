@@ -7,6 +7,7 @@ import com.weilai.common.PageQuery;
 import com.weilai.entity.Review;
 import com.weilai.request.QueryReviewParamsRequest;
 import com.weilai.request.ReplyRequest;
+import com.weilai.response.MainReplyResponse;
 import com.weilai.response.ReviewResponse;
 
 import java.util.List;
@@ -28,4 +29,6 @@ public interface ReviewService extends IService<Review> {
     List<Review> listPage();
 
     IPage<ReviewResponse> pageByBlogId(QueryReviewParamsRequest request);
+
+    List<MainReplyResponse> getMainReply();
 }

@@ -1,6 +1,7 @@
 package com.weilai.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -15,6 +16,7 @@ import com.weilai.mapper.UserMapper;
 import com.weilai.request.QueryReviewParamsRequest;
 import com.weilai.request.ReplyRequest;
 import com.weilai.response.BlogRecordResponse;
+import com.weilai.response.MainReplyResponse;
 import com.weilai.response.ReviewResponse;
 import com.weilai.service.ReviewService;
 import com.weilai.service.UserService;
@@ -57,7 +59,7 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
     public List<Review> findAllForBid(Integer bid) {
         LambdaQueryWrapper<Review> wrapper = new LambdaQueryWrapper<Review>();
 
-        wrapper.eq(Review::getBlogId, bid).eq(Review::getReply, 0);
+//        wrapper.eq(Review::getBlogId, bid).eq(Review::getReply, 0);
         //全部的评论字段
         List<Review> list = list(wrapper);
         //获取全部的评论 查看他们是否有回复
@@ -177,6 +179,12 @@ public class ReviewServiceImpl extends ServiceImpl<ReviewMapper, Review> impleme
            item.setChildList(list);
         }
         return blogPage;
+    }
+
+    @Override
+    public List<MainReplyResponse> getMainReply() {
+        List<MainReplyResponse> reviews = this.baseMapper.getMainReply();
+        return reviews;
     }
 
     public void totalReview(List<Review> list){
