@@ -24,7 +24,7 @@ spring:
     #链接过期时间
     timeout: 100000
 server:
-  port: 9000
+  port: 9001
 mybatis-plus:
   type-aliases-package: com.miku.entity # 别名扫描包
   ##配置mybatisplus输出sql语句
