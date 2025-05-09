@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableAsync
 ////用于开启定时任务
 @EnableScheduling
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.weilai")
 //@EnableChatGPT
 public class BlogApiApplication {
 

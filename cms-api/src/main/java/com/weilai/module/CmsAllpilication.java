@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 ////用于开启定时任务
 //@EnableScheduling
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.weilai")
 //@EnableChatGPT
 public class CmsAllpilication {
     public static void main(String[] args) {

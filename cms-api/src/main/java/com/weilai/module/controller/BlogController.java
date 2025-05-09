@@ -38,8 +38,8 @@ public class BlogController {
         //查询当前blog的tag
         List<BlogTypeEntity> list = blogTypeService.list(Wrappers.<BlogTypeEntity>lambdaQuery().eq(BlogTypeEntity::getBlogId, id));
         List<Long> collect = list.stream().map(item -> item.getTagId()).collect(Collectors.toList());
-        String tagIds = collect.stream().map(String::valueOf).collect(Collectors.joining(","));
-        blog.setTagId(tagIds);
+//        String tagIds = collect.stream().map(String::valueOf).collect(Collectors.joining(","));
+//        blog.setTagId(tagIds);
         return Result.ok(blog);
     }
 

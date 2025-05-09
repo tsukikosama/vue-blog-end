@@ -2,6 +2,7 @@ package com.weilai.module.mapper;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -20,5 +21,5 @@ import org.apache.ibatis.annotations.Param;
  */
 @Mapper
 public interface BlogMapper extends BaseMapper<Blog> {
-    IPage<BlogRecordResponse> selectMyPage(@Param("page")Page<BlogRecordResponse> page , @Param("ew") LambdaQueryWrapper wrapper);
+    IPage<BlogRecordResponse> selectMyPage(@Param("page")Page<BlogRecordResponse> page , @Param("ew") QueryWrapper wrapper);
 }

@@ -2,6 +2,7 @@ package com.weilai.module.service.impl;
 
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -31,8 +32,8 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Override
     public IPage<BlogRecordResponse> listByPage(QueryBlogParamsRequest query ) {
 
-        LambdaQueryWrapper<Blog> wrapper = new LambdaQueryWrapper<>();
-
+        QueryWrapper<Blog> wrapper = new QueryWrapper<>();
+        wrapper.eq("cb.is_valid",1);
         Page<BlogRecordResponse> page = new Page<>(query.getCurrent(), query.getPageSize());
         IPage<BlogRecordResponse> blogPage = baseMapper.selectMyPage(page, wrapper);
 
