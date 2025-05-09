@@ -32,14 +32,16 @@ public class BlogController {
 
     private final IBlogTypeService blogTypeService;
 
+
     @GetMapping("/{id}")
     public Result detail(@PathVariable("id") Long id){
         Blog blog = blogService.getById(id);
         //查询当前blog的tag
         List<BlogTypeEntity> list = blogTypeService.list(Wrappers.<BlogTypeEntity>lambdaQuery().eq(BlogTypeEntity::getBlogId, id));
-        List<Long> collect = list.stream().map(item -> item.getTagId()).collect(Collectors.toList());
-//        String tagIds = collect.stream().map(String::valueOf).collect(Collectors.joining(","));
-//        blog.setTagId(tagIds);
+        String result = list.stream()
+                .map(item -> String.valueOf(item.getTagId()))
+                .collect(Collectors.joining(","));
+        blog.setTagId(result);
         return Result.ok(blog);
     }
 
