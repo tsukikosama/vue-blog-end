@@ -2,12 +2,15 @@ package com.weilai.module.controller;
 
 import cn.dev33.satoken.stp.SaTokenInfo;
 import cn.dev33.satoken.stp.StpUtil;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.module.entity.User;
 import com.weilai.module.pojo.LoginReq;
 import com.weilai.module.request.QueryUserParamsRequest;
 import com.weilai.module.request.SaveUserRequest;
+import com.weilai.module.response.BlogRecordResponse;
+import com.weilai.module.response.UserRecordResponse;
 import com.weilai.module.service.UserService;
 import com.weilai.common.Result;
 import com.weilai.exception.CustomException;
@@ -73,14 +76,20 @@ public class UserController {
 //        return Result.ok(msg);
 //    }
 
-    @ApiOperation("获取全部的用户信息")
-    @GetMapping("/list")
-    public Result getUserList(QueryUserParamsRequest request){
-        System.out.println(request);
-        Page<User> user = userService.getUser(request);
-        return Result.ok(user);
-    }
+//    @ApiOperation("获取全部的用户信息")
+//    @GetMapping("/list")
+//    public Result getUserList(QueryUserParamsRequest request){
+//        System.out.println(request);
+//        Page<User> user = userService.getUser(request);
+//        return Result.ok(user);
+//    }
 
+    @ApiOperation("获取全部的用户信息")
+    @GetMapping("/page")
+    public Result page(QueryUserParamsRequest request){
+        IPage<UserRecordResponse> page =  userService.selectUserPage(request);
+        return Result.ok(page);
+    }
     @ApiOperation("添加用户")
     @PostMapping("/resetPwd")
     public Result resetPwd(@RequestBody List<Long> ids){

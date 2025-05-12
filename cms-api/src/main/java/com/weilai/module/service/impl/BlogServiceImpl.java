@@ -1,6 +1,7 @@
 package com.weilai.module.service.impl;
 
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -38,8 +39,16 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, Blog> implements Bl
     @Override
     public IPage<BlogRecordResponse> listByPage(QueryBlogParamsRequest query ) {
 
+
         QueryWrapper<Blog> wrapper = new QueryWrapper<>();
         wrapper.eq("cb.is_valid",1);
+        if (StrUtil.isNotBlank(query.getStartTime()) && StrUtil.isNotBlank(query.getEndTime())){
+            wrapper.between("cb.create_time",query.getStartTime(),query.getEndTime());
+        }
+        wrapper.like(StrUtil.isNotBlank(query.getTitle()),"cb.title",query.getTitle());
+        wrapper.eq(StrUtil.isNotBlank(query.getUserId()),"cb.user_id",query.getUserId());
+        wrapper.eq(query.getTagId()!=null,"cbt.tag_id",query.getTagId());
+
         Page<BlogRecordResponse> page = new Page<>(query.getCurrent(), query.getPageSize());
         IPage<BlogRecordResponse> blogPage = baseMapper.selectMyPage(page, wrapper);
         //

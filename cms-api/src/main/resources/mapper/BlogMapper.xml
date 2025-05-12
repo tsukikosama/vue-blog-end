@@ -3,7 +3,9 @@
 <mapper namespace="com.weilai.module.mapper.BlogMapper">
 
      <select id="selectMyPage" resultType="com.weilai.module.response.BlogRecordResponse">
-        select cb.*,cu.nickname,cu.avatar from cc_blog cb left join cc_user cu on cb.user_id = cu.id
+        select cb.*,cu.nickname,cu.avatar from cc_blog cb
+            left join cc_user cu on cb.user_id = cu.id
+            left join cc_blog_type cbt on cb.id = cbt.tag_id
             ${ew.customSqlSegment}
     </select>
 </mapper>

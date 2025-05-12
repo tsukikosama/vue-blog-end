@@ -18,4 +18,5 @@ public class BlogRecordResponse  {
     private Long userId;
     private String nickname;
     private String avatar;
+    private Integer isValid;
 }

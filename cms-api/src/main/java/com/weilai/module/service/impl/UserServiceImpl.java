@@ -3,14 +3,21 @@ package com.weilai.module.service.impl;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.weilai.module.entity.Blog;
 import com.weilai.module.entity.User;
 import com.weilai.module.mapper.UserMapper;
 import com.weilai.module.request.QueryUserParamsRequest;
+import com.weilai.module.response.BlogRecordResponse;
+import com.weilai.module.response.UserRecordResponse;
 import com.weilai.module.service.UserService;
 import com.weilai.common.PageQuery;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -20,6 +27,8 @@ import java.util.List;
 import static com.weilai.utils.SystemConstants.MAX_PAGE_SIZE;
 
 @Service
+@Slf4j
+@AllArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
 
@@ -27,8 +36,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 //    @Autowired
 //    private CoderService coderService;
 
-    @Autowired
-    private StringRedisTemplate stringTemplate;
+
+    private final StringRedisTemplate stringTemplate;
+
+
 
 //    @Value("${myconfig.salt}")
 //    private String salt ;
@@ -275,6 +286,14 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public void resetPwd(List<Long> ids) {
         this.baseMapper.update(Wrappers.<User>lambdaUpdate().set(User::getPassword,"123456").in(User::getId,ids));
+    }
+
+    @Override
+    public IPage<UserRecordResponse> selectUserPage(QueryUserParamsRequest query) {
+        Page<UserRecordResponse> page = new Page<>(query.getCurrent(), query.getPageSize());
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        IPage<UserRecordResponse> userPage = this.baseMapper.selectUserPage(page,wrapper);
+        return userPage;
     }
 
 
