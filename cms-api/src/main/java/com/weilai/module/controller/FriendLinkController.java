@@ -9,9 +9,7 @@ import com.weilai.module.request.QueryFriendLinkParamsRequest;
 import com.weilai.module.response.BlogRecordResponse;
 import com.weilai.module.service.impl.FriendLinkServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * <p>
@@ -32,5 +30,28 @@ public class FriendLinkController {
         QueryWrapper<FriendlinkEntity> wrapper = new QueryWrapper<>();
         Page<FriendlinkEntity> page = new Page<>(query.getCurrent(), query.getPageSize());
         return Result.ok(friendLinkService.page(page, wrapper));
+    }
+
+    @GetMapping("/detail/{id}")
+    public Result check(@PathVariable("id") Long id){
+        //查看详情
+        FriendlinkEntity entity = friendLinkService.getById(id);
+        return Result.ok(entity);
+    }
+
+    @PostMapping("/delete/{id}")
+    public Result delete(@PathVariable("id")Long id){
+        friendLinkService.removeById(id);
+        return Result.ok("删除成功");
+    }
+    @PostMapping("/save")
+    public Result save(@RequestBody FriendlinkEntity friendlinkEntity){
+        friendLinkService.updateById(friendlinkEntity);
+        return Result.ok();
+    }
+    @PostMapping("/update")
+    public Result update(@RequestBody FriendlinkEntity friendlinkEntity){
+        friendLinkService.updateById(friendlinkEntity);
+        return Result.ok();
     }
 }

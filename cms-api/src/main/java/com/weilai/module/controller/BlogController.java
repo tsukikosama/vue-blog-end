@@ -89,14 +89,7 @@ public class BlogController {
 
     @GetMapping("/page")
     public Result page(QueryBlogParamsRequest query){
-        System.out.println(query);
         return Result.ok(blogService.listByPage(query));
     }
 
-//    @GetMapping()
-//    public Result getBlogs(){
-//        List<Blog> list = blogService.listBlogs();
-//
-//        return Result.ok(list);
-//    }
 }
