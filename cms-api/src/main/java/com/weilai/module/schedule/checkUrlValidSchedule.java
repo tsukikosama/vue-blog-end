@@ -20,6 +20,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.weilai.constante.RedisConstante.BLOG_LIKE;
+import static com.weilai.enums.WebValidEnum.FAILURE_URL;
 
 @Component
 @Slf4j
@@ -39,11 +40,11 @@ public class checkUrlValidSchedule {
                 ResponseEntity<String> resp = restTemplate.getForEntity(item.getWebUrl(), String.class);
                 if (!resp.getStatusCode().is2xxSuccessful()){
                     //不是200
-                    item.setWebAccess(0);
+                    item.setWebAccess(FAILURE_URL.getCode());
                     count++;
                 }
             }catch (Exception e){
-                item.setWebAccess(0);
+                item.setWebAccess(FAILURE_URL.getCode());
                 count++;
             }
         }

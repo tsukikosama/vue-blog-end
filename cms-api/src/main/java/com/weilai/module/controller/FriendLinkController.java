@@ -5,11 +5,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.common.Result;
 import com.weilai.module.entity.Blog;
 import com.weilai.module.entity.FriendlinkEntity;
+import com.weilai.module.entity.User;
 import com.weilai.module.request.QueryFriendLinkParamsRequest;
 import com.weilai.module.response.BlogRecordResponse;
 import com.weilai.module.service.impl.FriendLinkServiceImpl;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import static com.weilai.enums.WebValidEnum.VALID_URL;
 
 /**
  * <p>
@@ -46,12 +50,19 @@ public class FriendLinkController {
     }
     @PostMapping("/save")
     public Result save(@RequestBody FriendlinkEntity friendlinkEntity){
-        friendLinkService.updateById(friendlinkEntity);
+        friendlinkEntity.setWebAccess(VALID_URL.getCode());
+        friendLinkService.save(friendlinkEntity);
         return Result.ok();
     }
     @PostMapping("/update")
     public Result update(@RequestBody FriendlinkEntity friendlinkEntity){
         friendLinkService.updateById(friendlinkEntity);
         return Result.ok();
+    }
+    @ApiOperation("获取友链详情")
+    @GetMapping("/detail")
+    public Result getUserDetail(@RequestParam("id") Long id){
+        FriendlinkEntity record = friendLinkService.getById(id);
+        return Result.ok(record);
     }
 }
