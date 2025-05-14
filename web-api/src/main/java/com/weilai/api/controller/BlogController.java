@@ -101,9 +101,7 @@ public class BlogController {
 
     @GetMapping("randomblog")
     public Result RandomBlog(){
-
         List<Blog> list = blogService.list();
-
         Set<Blog> set = new HashSet<Blog>();
         int index ;
         while(set.size() < 5){

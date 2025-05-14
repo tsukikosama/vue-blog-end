@@ -2,7 +2,7 @@ spring:
   application:
     name: blog
   profiles:
-    active: pro
+    active: dev
   servlet:
     multipart:
       enabled: true
