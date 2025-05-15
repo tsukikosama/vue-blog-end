@@ -1,10 +1,10 @@
-package com.weilai.api.service.impl;
+package com.weilai.module.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.weilai.api.entity.CodeEntity;
-import com.weilai.api.mapper.CodeMapper;
-import com.weilai.api.service.ICodeService;
+import com.weilai.module.entity.CodeEntity;
+import com.weilai.module.mapper.CodeMapper;
+import com.weilai.module.service.ICodeService;
 import org.springframework.stereotype.Service;
 
 /**

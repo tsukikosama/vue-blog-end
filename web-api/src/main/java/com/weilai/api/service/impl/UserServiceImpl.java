@@ -6,7 +6,6 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.common.PageQuery;
-import com.weilai.entity.Code;
 import com.weilai.api.entity.User;
 import com.weilai.exception.CustomException;
 import com.weilai.api.mapper.UserMapper;

@@ -2,7 +2,7 @@ package com.weilai.module.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.weilai.module.entity.CodeEntity;
+import com.weilai.module.entity.DictEntity;
 
 /**
  * <p>
@@ -10,8 +10,8 @@ import com.weilai.module.entity.CodeEntity;
  * </p>
  *
  * @author miku
- * @since 2025-05-12
+ * @since 2025-05-15
  */
-public interface CodeMapper extends BaseMapper<CodeEntity> {
+public interface DictMapper extends BaseMapper<DictEntity> {
 
 }
