@@ -1,7 +1,8 @@
 package com.weilai.api.service;
 
-import com.weilai.common.modules.entity.DictEntity;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.weilai.api.entity.DictEntity;
 
 /**
  * <p>

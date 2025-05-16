@@ -1,7 +1,8 @@
 package com.weilai.api.service;
 
-import com.weilai.common.modules.entity.CodeEntity;
+
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.weilai.api.entity.CodeEntity;
 
 /**
  * <p>

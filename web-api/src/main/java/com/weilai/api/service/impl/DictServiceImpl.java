@@ -1,9 +1,11 @@
 package com.weilai.api.service.impl;
 
-import com.weilai.common.modules.entity.DictEntity;
-import com.weilai.common.modules.mapper.DictMapper;
-import com.weilai.common.modules.service.IDictService;
+
+
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.weilai.api.entity.DictEntity;
+import com.weilai.api.mapper.DictMapper;
+import com.weilai.api.service.IDictService;
 import org.springframework.stereotype.Service;
 
 /**
