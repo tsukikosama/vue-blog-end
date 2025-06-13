@@ -34,24 +34,23 @@ spring:
             required: false
           #开启debug模式，这样邮件发送过程的日志会在控制台打印出来，方便排查错误
         debug: true
-
 #
 mybatis-plus:
-  type-aliases-package: com.miku.entity # 别名扫描包
+  type-aliases-package: com.weilai.module.**.model # 别名扫描包
   ##配置mybatisplus输出sql语句
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
   global-config:
     db-config:
-      table-prefix: cc_
+      id-type: ASSIGN_ID
       ##这三个配置 是用于逻辑删除的
       ##逻辑删除的字段
       logic-delete-field: isValid
       ##逻辑删除的值
-      logic-delete-value: 0
+      logic-delete-value: 1
       ##逻辑不删除的值
-      logic-not-delete-value: 1
-  mapper-locations: classpath:mapper/*.xml
+      logic-not-delete-value: 0
+  mapper-locations: classpath*:mapper/**/*.xml
 logging:
   level:
     com.blog: debug
@@ -61,17 +60,6 @@ chatgpt:
   session-expiration-time: 300
   #proxy-port: api.chatanywhere.com.cn#
   #base-url: https://api.chatanywhere.com.cn.
-myconfig:
-  salt: cywltxdy
-cc:
-  miku:
-    avatar: 127.0.0.1:8085/0.jpg
-forbidden:
-  words:
-    filepath: classpath:forbidden_words.txt
-server:
-  servlet:
-    context-path: /api
   port: 9002
 ############## Sa-Token 配置 (文档: https://sa-token.cc) ##############
 sa-token:
@@ -89,23 +77,24 @@ sa-token:
   token-style: uuid
   # 是否输出操作日志
   is-log: true
-
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.weilai
+#      com.xiaominfo.knife4j.demo.web
+# knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true
-  openapi:
-    title: Knife4j官方文档
-    description: "`我是测试`,**你知道吗**
-    # aaa"
-    email: xiaoymin@foxmail.com
-    concat: 八一菜刀
-    url: https://docs.xiaominfo.com
-    version: v4.0
-    license: Apache 2.0
-    license-url: https://stackoverflow.com/
-    terms-of-service-url: https://stackoverflow.com/
-    group:
-      test1:
-        group-name: 分组名称
-        api-rule: package
-        api-rule-resources:
-          - com.knife4j.demo.new3
+  setting:
+    language: zh_cn
+### 验证码开关
+code:
+  open: false
