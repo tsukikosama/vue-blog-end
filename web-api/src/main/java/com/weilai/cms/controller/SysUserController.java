@@ -6,8 +6,10 @@ import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.crypto.SecureUtil;
 import com.baomidou.mybatisplus.core.toolkit.ObjectUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.system.model.entity.SysUserEntity;
 import com.weilai.system.model.req.LoginReq;
+import com.weilai.system.model.req.QueryUserReq;
 import com.weilai.system.model.resp.UserInfoResp;
 import com.weilai.system.service.ISysUserService;
 import com.weilai.system.common.Result;
@@ -27,14 +29,12 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/sys/user")
-@Tag(name = "系统用户接口", description = "用户相关接口")
+@Tag(name = "系统用户接口", description = "系统用户接口")
 @RequiredArgsConstructor
 public class SysUserController {
 
 
     private final ISysUserService sysUserService;
-
-
 
     @PostMapping("/login")
     @Operation(summary = "登录", description = "登录")
@@ -43,6 +43,7 @@ public class SysUserController {
         if (ObjectUtils.isEmpty(user)){
             throw new CustomException("用户名不存在");
         }
+        System.out.println(SecureUtil.md5(req.getPassword()));
         if (!user.getPassword().equals(SecureUtil.md5(req.getPassword()))){
             throw new CustomException("密码不正确");
         }
@@ -51,10 +52,27 @@ public class SysUserController {
     }
 
     @SaCheckLogin
-    @GetMapping("/info")
+    @PostMapping("/info")
     @Operation(summary = "用户信息", description = "用户信息")
     public Result<UserInfoResp> info(){
         SysUserEntity user = sysUserService.getById(StpUtil.getLoginIdAsLong());
         return Result.ok(BeanUtil.copyProperties(user, UserInfoResp.class));
     }
+
+
+    @PostMapping("/logout")
+    @Operation(summary = "用户退出", description = "用户退出")
+    public Result<Void> logout(){
+        StpUtil.logout();
+        return Result.ok();
+    }
+
+    @GetMapping("/page")
+    @Operation(summary = "用户列表", description = "用户列表")
+    public Result<LoginReq> page(@RequestBody QueryUserReq req){
+//        Page<SysUserEntity> page = new Page<>(req.getCurrent(), req.getSize());
+        Page<SysUserEntity>  page = sysUserService.page(new Page<>(req.getCurrent(), req.getSize()));
+        return Result.ok(BeanUtil.copyProperties(page, LoginReq.class));
+    }
+
 }

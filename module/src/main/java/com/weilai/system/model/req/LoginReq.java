@@ -7,7 +7,7 @@ import lombok.Data;
 import javax.validation.constraints.NotNull;
 
 @Data
-@Schema(description = "创建或修改商品参数")
+@Schema(description = "登录用户req")
 public class LoginReq {
     @Schema(description = "用户名")
     @NotNull(message = "用户名不能为空")
