@@ -9,7 +9,7 @@ spring:
     database: 3
     host: 8.138.16.124
     port: 6379
-    password: 2270398619
+    password:
     jedis:
       pool:
         #最小空闲

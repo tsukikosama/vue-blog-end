@@ -69,9 +69,9 @@ public class SysUserController {
 
     @GetMapping("/page")
     @Operation(summary = "用户列表", description = "用户列表")
-    public Result<LoginReq> page(@RequestBody QueryUserReq req){
+    public Result<LoginReq> page(QueryUserReq req){
 //        Page<SysUserEntity> page = new Page<>(req.getCurrent(), req.getSize());
-        Page<SysUserEntity>  page = sysUserService.page(new Page<>(req.getCurrent(), req.getSize()));
+        Page<SysUserEntity>  page = sysUserService.page(new Page<>(req.getCurrent(), req.getPageSize()));
         return Result.ok(BeanUtil.copyProperties(page, LoginReq.class));
     }
 

@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class CommonPage {
     private Integer current;
-    private Integer size;
+    private Integer pageSize;
     private Integer total;
 }

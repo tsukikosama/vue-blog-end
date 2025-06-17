@@ -22,6 +22,6 @@ spring:
         max-active: 8
     #链接过期时间
     timeout: 10000
-miku:
-  uploadurl: http://localhost:8085/img/
-  localurl: G:/a_vue/nginx-1.23.4/html/img/
+file:
+  url: http://localhost:8085/img/
+  localUrl: G:/a_vue/nginx-1.23.4/html/img/

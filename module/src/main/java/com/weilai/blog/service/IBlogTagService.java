@@ -12,6 +12,6 @@ import com.weilai.blog.model.entity.BlogTypeEntity;
  * @author miku
  * @since 2025-06-12
  */
-public interface IBlogTypeService extends IService<BlogTypeEntity> {
+public interface IBlogTagService extends IService<BlogTypeEntity> {
 
 }
