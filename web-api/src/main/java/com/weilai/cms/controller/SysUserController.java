@@ -78,7 +78,7 @@ public class SysUserController {
     @Operation(summary = "用户列表", description = "用户列表")
     public Result<Page<LoginReq>> page(QueryUserReq req){
 //        Page<SysUserEntity> page = new Page<>(req.getCurrent(), req.getSize());
-        Page<SysUserEntity>  page = sysUserService.page(new Page<>(req.getCurrent(), req.getSize()));
+        Page<SysUserEntity>  page = sysUserService.page(new Page<>(req.getCurrent(), req.getPageSize()));
         return Result.ok(PageUtils.build(page,LoginReq.class));
     }
 
