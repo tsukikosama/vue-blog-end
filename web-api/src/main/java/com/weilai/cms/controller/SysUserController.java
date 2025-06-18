@@ -101,5 +101,15 @@ public class SysUserController {
         return Result.ok();
     }
 
+    @PostMapping("/save")
+    @Operation(summary = "保存系统用户", description = "保存系统用户")
+    public Result<Void> save(@RequestBody UserReq req){
+        System.out.println(req);
+        SysUserEntity sysUserEntity = BeanUtil.copyProperties(req, SysUserEntity.class);
+        sysUserEntity.setDeptId(1l);
+        this.sysUserService.save(sysUserEntity);
+        return Result.ok();
+    }
+
 
 }

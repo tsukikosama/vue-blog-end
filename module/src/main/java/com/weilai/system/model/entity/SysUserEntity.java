@@ -1,9 +1,6 @@
 package com.weilai.system.model.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,7 +25,7 @@ public class SysUserEntity implements Serializable {
     /**
      * id
      */
-    @TableId(value = "id", type = IdType.AUTO)
+    @TableId(value = "id")
     private Long id;
 
     /**
@@ -85,24 +82,24 @@ public class SysUserEntity implements Serializable {
     /**
      * 创建人
      */
-    @TableField("create_user")
+    @TableField(fill = FieldFill.INSERT)
     private Long createUser;
 
     /**
      * 创建时间
      */
-    @TableField("create_time")
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 
     /**
      * 修改人
      */
-    @TableField("update_user")
+    @TableField(fill = FieldFill.UPDATE)
     private Long updateUser;
 
     /**
      * 修改时间
      */
-    @TableField("update_time")
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime updateTime;
 }
