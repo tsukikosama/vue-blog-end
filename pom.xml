@@ -139,6 +139,11 @@
             <version>2.3.31</version> <!-- 确保使用合适版本 -->
         </dependency>
 
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.17.2</version>
+        </dependency>
 
     </dependencies>
     <build>

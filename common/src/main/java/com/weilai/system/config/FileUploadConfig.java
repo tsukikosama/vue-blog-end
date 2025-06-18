@@ -10,4 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class FileUploadConfig {
     private String url;
     private String localUrl;
+    private Integer type;
 }
+
+

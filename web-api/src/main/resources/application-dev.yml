@@ -23,5 +23,15 @@ spring:
     #链接过期时间
     timeout: 10000
 file:
-  url: http://localhost:8085/img/
-  localUrl: G:/a_vue/nginx-1.23.4/html/img/
+  url: http://localhost:8085/upload/
+  localUrl: D:/nginx-1.26.1/file/
+  ### 文件上传的类型 1本地上传 2oss保存
+  type: 1
+oss:
+  Domain: test
+  Prefix: test
+  EndPoint: test
+  AccessKeyId: test
+  AccessKeySecret: test
+  BucketName: test
+#  localUrl: G:/a_vue/nginx-1.23.4/html/img/

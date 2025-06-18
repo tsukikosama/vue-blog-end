@@ -63,8 +63,6 @@ public class MailService {
     @Async
     @Transactional
     public void sendTextMailMessage(String to,String text){
-//        String subject = "验证码";
-//        String text = RandomUtil.randomNumbers(6);
         try {
             //true 代表支持复杂的类型
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(javaMailSender.createMimeMessage(),true);
@@ -79,17 +77,8 @@ public class MailService {
             System.out.println(new Date());
             //邮件发送时间
             mimeMessageHelper.setSentDate(new Date());
-
-            //使用redis的办法 存入redis 设置过期时间
-        //    redisTemplate.opsForValue().set("code",text,5, TimeUnit.MINUTES);
             // 发送邮件
             javaMailSender.send(mimeMessageHelper.getMimeMessage());
-
-            // System.out.println("发送邮件成功："+sendMailer+"->"+to);
-//            Code code = new Code(to,text);
-            //把验证码存入数据库中
-//            codeService.save(code);
-
         } catch (MessagingException e) {
             e.printStackTrace();
             System.out.println("发送邮件失败："+e.getMessage());
