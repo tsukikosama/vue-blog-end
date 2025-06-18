@@ -4,6 +4,7 @@ package com.weilai.system.service.impl;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.weilai.system.mapper.SysUserMapper;
 import com.weilai.system.model.entity.SysUserEntity;
+import com.weilai.system.model.req.UserReq;
 import com.weilai.system.service.ISysUserService;
 import org.springframework.stereotype.Service;
 
@@ -17,5 +18,6 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUserEntity> implements ISysUserService {
+
 
 }

@@ -3,6 +3,7 @@ package com.weilai.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.weilai.system.model.entity.SysUserEntity;
+import com.weilai.system.model.req.UserReq;
 
 /**
  * <p>

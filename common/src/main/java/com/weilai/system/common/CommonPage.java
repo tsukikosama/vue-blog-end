@@ -6,5 +6,4 @@ import lombok.Data;
 public class CommonPage {
     private Integer current;
     private Integer pageSize;
-    private Integer total;
 }

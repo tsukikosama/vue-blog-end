@@ -10,7 +10,7 @@ import java.util.List;
 public class QueryUserReq extends CommonPage {
     private String username;
     private String nickname;
-    private List<LocalTime> createTime;
+//    private List<LocalTime> createTime;
     private Integer type;
     private Long deptId;
 }

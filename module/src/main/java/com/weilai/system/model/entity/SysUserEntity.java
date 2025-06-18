@@ -79,6 +79,9 @@ public class SysUserEntity implements Serializable {
     @TableField("dept_id")
     private Long deptId;
 
+
+    @TableField("status")
+    private Integer status;
     /**
      * 创建人
      */

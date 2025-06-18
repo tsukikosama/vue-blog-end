@@ -10,14 +10,22 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.system.model.entity.SysUserEntity;
 import com.weilai.system.model.req.LoginReq;
 import com.weilai.system.model.req.QueryUserReq;
+import com.weilai.system.model.req.UserReq;
 import com.weilai.system.model.resp.UserInfoResp;
 import com.weilai.system.service.ISysUserService;
 import com.weilai.system.common.Result;
 import com.weilai.system.exception.CustomException;
+import com.weilai.system.utils.PageUtils;
+import io.lettuce.core.ScriptOutputType;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+import static com.weilai.system.enums.SysUserStatusMenu.BAN;
+import static com.weilai.system.enums.SysUserStatusMenu.NORMAL;
 
 /**
  * <p>
@@ -43,7 +51,6 @@ public class SysUserController {
         if (ObjectUtils.isEmpty(user)){
             throw new CustomException("用户名不存在");
         }
-        System.out.println(SecureUtil.md5(req.getPassword()));
         if (!user.getPassword().equals(SecureUtil.md5(req.getPassword()))){
             throw new CustomException("密码不正确");
         }
@@ -69,10 +76,33 @@ public class SysUserController {
 
     @GetMapping("/page")
     @Operation(summary = "用户列表", description = "用户列表")
-    public Result<LoginReq> page(QueryUserReq req){
+    public Result<Page<LoginReq>> page(QueryUserReq req){
 //        Page<SysUserEntity> page = new Page<>(req.getCurrent(), req.getSize());
-        Page<SysUserEntity>  page = sysUserService.page(new Page<>(req.getCurrent(), req.getPageSize()));
-        return Result.ok(BeanUtil.copyProperties(page, LoginReq.class));
+        Page<SysUserEntity>  page = sysUserService.page(new Page<>(req.getCurrent(), req.getSize()));
+        return Result.ok(PageUtils.build(page,LoginReq.class));
     }
+
+    @PostMapping("/ban/{status}")
+    @Operation(summary = "禁用/启用用户", description = "禁用/启用用户")
+    public Result<Void> ban(@RequestBody List<Long> ids,@PathVariable("status")Integer status){
+        this.sysUserService.update(Wrappers.<SysUserEntity>lambdaUpdate().set(SysUserEntity::getStatus,status).in(SysUserEntity::getId,ids));
+        return Result.ok();
+    }
+    @SaCheckLogin
+    @PostMapping("/reset")
+    @Operation(summary = "重置用户密码", description = "重置用户密码")
+    Result<Void> reset(@RequestBody List<Long> ids){
+        this.sysUserService.update(Wrappers.<SysUserEntity>lambdaUpdate().set(SysUserEntity::getPassword,SecureUtil.md5("123456")).in(SysUserEntity::getId,ids));
+        return Result.ok();
+    }
+
+    @PostMapping("/update")
+    @Operation(summary = "更新用户信息", description = "更新用户信息")
+    Result<Void> update(@RequestBody UserReq req){
+        SysUserEntity sysUserEntity = BeanUtil.copyProperties(req, SysUserEntity.class);
+        this.sysUserService.updateById(sysUserEntity);
+        return Result.ok();
+    }
+
 
 }

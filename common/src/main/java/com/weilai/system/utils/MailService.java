@@ -1,6 +1,7 @@
 package com.weilai.system.utils;
 
 import cn.hutool.core.util.StrUtil;
+import com.weilai.system.exception.CustomException;
 import jakarta.mail.MessagingException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +43,13 @@ public class MailService {
      */
     private void checkMail(String to,String subject,String text){
         if(StrUtil.isEmpty(to)){
-            throw new RuntimeException("邮件收信人不能为空");
+            throw new CustomException("邮件收信人不能为空");
         }
         if(StrUtil.isEmpty(subject)){
-            throw new RuntimeException("邮件主题不能为空");
+            throw new CustomException("邮件主题不能为空");
         }
         if(StrUtil.isEmpty(text)){
-            throw new RuntimeException("邮件内容不能为空");
+            throw new CustomException("邮件内容不能为空");
         }
     }
 
