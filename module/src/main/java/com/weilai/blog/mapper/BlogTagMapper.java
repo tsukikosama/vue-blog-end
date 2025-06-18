@@ -2,7 +2,7 @@ package com.weilai.blog.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.weilai.blog.model.entity.BlogTypeEntity;
+import com.weilai.blog.model.entity.BlogTagEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -14,6 +14,6 @@ import org.apache.ibatis.annotations.Mapper;
  * @since 2025-06-12
  */
 @Mapper
-public interface BlogTypeMapper extends BaseMapper<BlogTypeEntity> {
+public interface BlogTagMapper extends BaseMapper<BlogTagEntity> {
 
 }

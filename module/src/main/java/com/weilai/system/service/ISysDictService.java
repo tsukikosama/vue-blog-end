@@ -3,6 +3,9 @@ package com.weilai.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.weilai.system.model.entity.SysDictEntity;
+import com.weilai.system.model.resp.DictValueResp;
+
+import java.util.List;
 
 /**
  * <p>
@@ -14,4 +17,6 @@ import com.weilai.system.model.entity.SysDictEntity;
  */
 public interface ISysDictService extends IService<SysDictEntity> {
 
+
+    List<DictValueResp> getDictList(String labelName);
 }

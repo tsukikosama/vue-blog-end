@@ -9,23 +9,19 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.system.model.entity.SysUserEntity;
 import com.weilai.system.model.req.LoginReq;
-import com.weilai.system.model.req.QueryUserReq;
+import com.weilai.system.model.query.UserQuery;
 import com.weilai.system.model.req.UserReq;
 import com.weilai.system.model.resp.UserInfoResp;
 import com.weilai.system.service.ISysUserService;
 import com.weilai.system.common.Result;
 import com.weilai.system.exception.CustomException;
 import com.weilai.system.utils.PageUtils;
-import io.lettuce.core.ScriptOutputType;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-import static com.weilai.system.enums.SysUserStatusMenu.BAN;
-import static com.weilai.system.enums.SysUserStatusMenu.NORMAL;
 
 /**
  * <p>
@@ -55,6 +51,7 @@ public class SysUserController {
             throw new CustomException("密码不正确");
         }
         StpUtil.login(user.getId());
+
         return Result.ok(StpUtil.getTokenValue());
     }
 
@@ -76,10 +73,10 @@ public class SysUserController {
 
     @GetMapping("/page")
     @Operation(summary = "用户列表", description = "用户列表")
-    public Result<Page<LoginReq>> page(QueryUserReq req){
+    public Result<Page<UserInfoResp>> page(UserQuery req){
 //        Page<SysUserEntity> page = new Page<>(req.getCurrent(), req.getSize());
         Page<SysUserEntity>  page = sysUserService.page(new Page<>(req.getCurrent(), req.getPageSize()));
-        return Result.ok(PageUtils.build(page,LoginReq.class));
+        return Result.ok(PageUtils.build(page,UserInfoResp.class));
     }
 
     @PostMapping("/ban/{status}")
@@ -91,14 +88,14 @@ public class SysUserController {
     @SaCheckLogin
     @PostMapping("/reset")
     @Operation(summary = "重置用户密码", description = "重置用户密码")
-    Result<Void> reset(@RequestBody List<Long> ids){
+    public Result<Void> reset(@RequestBody List<Long> ids){
         this.sysUserService.update(Wrappers.<SysUserEntity>lambdaUpdate().set(SysUserEntity::getPassword,SecureUtil.md5("123456")).in(SysUserEntity::getId,ids));
         return Result.ok();
     }
 
     @PostMapping("/update")
     @Operation(summary = "更新用户信息", description = "更新用户信息")
-    Result<Void> update(@RequestBody UserReq req){
+    public Result<Void> update(@RequestBody UserReq req){
         SysUserEntity sysUserEntity = BeanUtil.copyProperties(req, SysUserEntity.class);
         this.sysUserService.updateById(sysUserEntity);
         return Result.ok();

@@ -2,6 +2,9 @@ package com.weilai.blog.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.weilai.blog.model.entity.BlogEntity;
+import com.weilai.blog.model.req.BlogReq;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +16,9 @@ import com.weilai.blog.model.entity.BlogEntity;
  */
 public interface IBlogService extends IService<BlogEntity> {
 
+    void saveBlog(BlogReq req);
+
+    void updateBlog(BlogReq req);
+
+    void removeBlog(List<Long> id);
 }

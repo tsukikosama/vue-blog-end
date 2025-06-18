@@ -1,13 +1,10 @@
-package com.weilai.system.model.req;
+package com.weilai.system.model.query;
 
 import com.weilai.system.common.CommonPage;
 import lombok.Data;
 
-import java.time.LocalTime;
-import java.util.List;
-
 @Data
-public class QueryUserReq extends CommonPage {
+public class UserQuery extends CommonPage {
     private String username;
     private String nickname;
 //    private List<LocalTime> createTime;

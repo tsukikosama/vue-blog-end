@@ -1,10 +1,8 @@
-package com.weilai.blog.model.resp;
+package com.weilai.blog.model.req;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.weilai.system.common.CommonFiled;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;
@@ -12,8 +10,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Schema(description = "博客详情信息")
-public class BlogResp extends CommonFiled {
+public class BlogReq {
     private Long id;
     /**
      * 标题
@@ -49,4 +46,6 @@ public class BlogResp extends CommonFiled {
 
     @NotNull(message = "标签不能为空")
     private List<Long> tagId;
+
+
 }

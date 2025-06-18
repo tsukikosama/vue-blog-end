@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("cc_blog_type")
-public class BlogTypeEntity implements Serializable {
+public class BlogTagEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

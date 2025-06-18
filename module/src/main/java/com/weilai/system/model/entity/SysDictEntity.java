@@ -34,15 +34,20 @@ public class SysDictEntity implements Serializable {
     /**
      * 类型id
      */
-    @TableField("code_id")
-    private Long codeId;
+    @TableField("name")
+    private Long name;
 
     /**
      * 字典值
      */
-    @TableField("code_value")
-    private String codeValue;
+    @TableField("code")
+    private String code;
 
+    /**
+     * 创建时间
+     */
+    @TableField("description")
+    private String description;
     /**
      * 创建时间
      */

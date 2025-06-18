@@ -6,6 +6,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
+import com.weilai.system.annotation.DictField;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,6 +22,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("cc_tag")
+@DictField
 public class TagEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;

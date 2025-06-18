@@ -2,7 +2,9 @@ package com.weilai.blog.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.weilai.blog.model.entity.BlogTypeEntity;
+import com.weilai.blog.model.entity.BlogTagEntity;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,6 +14,9 @@ import com.weilai.blog.model.entity.BlogTypeEntity;
  * @author miku
  * @since 2025-06-12
  */
-public interface IBlogTagService extends IService<BlogTypeEntity> {
+public interface IBlogTagService extends IService<BlogTagEntity> {
 
+    void saveBlogTag(Long id, List<Long> tagId);
+
+    void removeBlogTagRelations(List<Long> id);
 }

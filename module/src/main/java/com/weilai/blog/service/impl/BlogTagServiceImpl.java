@@ -1,12 +1,17 @@
 package com.weilai.blog.service.impl;
 
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 
-import com.weilai.blog.mapper.BlogTypeMapper;
-import com.weilai.blog.model.entity.BlogTypeEntity;
+import com.weilai.blog.mapper.BlogTagMapper;
+import com.weilai.blog.model.entity.BlogTagEntity;
 import com.weilai.blog.service.IBlogTagService;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * <p>
@@ -17,6 +22,28 @@ import org.springframework.stereotype.Service;
  * @since 2025-06-12
  */
 @Service
-public class BlogTagServiceImpl extends ServiceImpl<BlogTypeMapper, BlogTypeEntity> implements IBlogTagService {
+public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTagEntity> implements IBlogTagService {
 
+    /**
+     * 保存博客与标签的关系
+     * @param id
+     * @param tagId
+     */
+    @Override
+    public void saveBlogTag(Long id, List<Long> tagId) {
+        removeBlogTagRelations(Arrays.asList(id));
+        List<BlogTagEntity> list = new ArrayList<>();
+        tagId.forEach(item -> {
+            BlogTagEntity blogTagEntity = new BlogTagEntity();
+            blogTagEntity.setBlogId(id);
+            blogTagEntity.setTagId(item);
+            list.add(blogTagEntity);
+        });
+        this.baseMapper.insert(list);
+    }
+
+    @Override
+    public void removeBlogTagRelations(List<Long> id){
+        this.baseMapper.delete(Wrappers.<BlogTagEntity>lambdaQuery().in(BlogTagEntity::getBlogId,id));
+    }
 }

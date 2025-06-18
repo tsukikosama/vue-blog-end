@@ -34,14 +34,17 @@ public class SysDictValueEntity implements Serializable {
     /**
      * 标签名字
      */
-    @TableField("code")
-    private String code;
+    @TableField("label")
+    private String label;
 
     /**
      * 标签值
      */
     @TableField("value")
     private String value;
+
+    @TableField("dict_id")
+    private Long dictId;
 
     /**
      * 创建时间

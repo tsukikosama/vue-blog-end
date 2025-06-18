@@ -5,23 +5,24 @@ spring:
     url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC&useUnicode=true&characterEncoding=utf8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: 2270398619
-  redis:
-    database: 3
-    host: 127.0.0.1
-    port: 6379
-    password:
-    jedis:
-      pool:
-        #最小空闲
-        min-idle: 0
-        # 最大空闲
-        max-idle: 5
-        #最大阻塞等待散件(负数表示没限制)
-        max-wait: -1
-        #最大连接数
-        max-active: 8
-    #链接过期时间
-    timeout: 10000
+  data:
+    redis:
+      database: 7
+      host: 127.0.0.1
+      port: 6379
+      password:
+      jedis:
+        pool:
+          #最小空闲
+          min-idle: 0
+          # 最大空闲
+          max-idle: 5
+          #最大阻塞等待散件(负数表示没限制)
+          max-wait: -1
+          #最大连接数
+          max-active: 8
+      #链接过期时间
+      timeout: 10000
 file:
   url: http://localhost:8085/upload/
   localUrl: D:/nginx-1.26.1/file/
