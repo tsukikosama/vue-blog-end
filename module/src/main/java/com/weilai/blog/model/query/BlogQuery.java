@@ -1,7 +1,6 @@
 package com.weilai.blog.model.query;
 
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.weilai.system.annotation.Query;
 import com.weilai.system.common.CommonPage;
 import com.weilai.system.common.CommonQuery;
@@ -20,7 +19,8 @@ public class BlogQuery extends CommonPage {
     private String tagId;
     @Query(type = Query.Type.EQ)
     private Integer status;
-    @Query(type = Query.Type.BETWEEN)
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime[] createTime;
+    @Query(type = Query.Type.GE)
+    private LocalDateTime startTime;
+    @Query(type = Query.Type.LE)
+    private LocalDateTime endTime;
 }
