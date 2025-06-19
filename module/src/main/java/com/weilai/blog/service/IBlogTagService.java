@@ -19,4 +19,6 @@ public interface IBlogTagService extends IService<BlogTagEntity> {
     void saveBlogTag(Long id, List<Long> tagId);
 
     void removeBlogTagRelations(List<Long> id);
+
+    List<Long> getTagIdByBlogId(Long id);
 }

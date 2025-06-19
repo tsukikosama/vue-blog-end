@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -45,5 +46,12 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTagEntity
     @Override
     public void removeBlogTagRelations(List<Long> id){
         this.baseMapper.delete(Wrappers.<BlogTagEntity>lambdaQuery().in(BlogTagEntity::getBlogId,id));
+    }
+
+    @Override
+    public List<Long> getTagIdByBlogId(Long id) {
+        List<BlogTagEntity> blogTagEntities = this.baseMapper.selectList(Wrappers.<BlogTagEntity>lambdaQuery()
+                .eq(BlogTagEntity::getBlogId, id));
+        return blogTagEntities.stream().map(BlogTagEntity::getBlogId).toList();
     }
 }

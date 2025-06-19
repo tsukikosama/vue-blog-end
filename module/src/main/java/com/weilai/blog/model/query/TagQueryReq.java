@@ -1,4 +1,4 @@
-package com.weilai.blog.model.req;
+package com.weilai.blog.model.query;
 
 import lombok.Data;
 

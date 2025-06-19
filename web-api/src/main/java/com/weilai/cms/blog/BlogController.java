@@ -3,11 +3,15 @@ package com.weilai.cms.blog;
 import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.blog.model.entity.BlogEntity;
+import com.weilai.blog.model.query.BlogQuery;
 import com.weilai.blog.model.req.BlogReq;
 import com.weilai.blog.model.resp.BlogResp;
 import com.weilai.blog.service.IBlogService;
 import com.weilai.blog.service.impl.BlogServiceImpl;
 import com.weilai.system.common.Result;
+import com.weilai.system.model.entity.SysUserEntity;
+import com.weilai.system.model.resp.UserInfoResp;
+import com.weilai.system.utils.PageUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -31,10 +35,12 @@ import java.util.List;
 public class BlogController {
 
     private final IBlogService blogService;
+
     @GetMapping("page")
     @Operation(summary = "博客分页", description = "博客分页接口")
-    public Result<Page<BlogResp>> page(){
-        return Result.ok();
+    public Result<Page<BlogResp>> page(BlogQuery req){
+
+        return Result.ok(blogService.blogPage(req));
     }
 
     @PostMapping("save")
@@ -57,5 +63,6 @@ public class BlogController {
         blogService.removeBlog(id);
         return Result.ok();
     }
+
 
 }
