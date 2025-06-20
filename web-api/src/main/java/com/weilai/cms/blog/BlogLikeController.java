@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since 2025-06-12
  */
 @RestController
-@RequestMapping("/modules/blogLikeEntity")
+@RequestMapping("/modules/blogLike")
 public class BlogLikeController {
 
 }

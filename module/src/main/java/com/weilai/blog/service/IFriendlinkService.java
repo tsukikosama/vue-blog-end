@@ -14,4 +14,5 @@ import com.weilai.blog.model.entity.FriendlinkEntity;
  */
 public interface IFriendlinkService extends IService<FriendlinkEntity> {
 
+    void checkUrlIsAccessible(Long[] ids);
 }

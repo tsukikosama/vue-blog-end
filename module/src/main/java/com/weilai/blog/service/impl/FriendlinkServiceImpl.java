@@ -17,4 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class FriendlinkServiceImpl extends ServiceImpl<FriendlinkMapper, FriendlinkEntity> implements IFriendlinkService {
 
+    @Override
+    public void checkUrlIsAccessible(Long[] ids) {
+
+    }
+
 }
