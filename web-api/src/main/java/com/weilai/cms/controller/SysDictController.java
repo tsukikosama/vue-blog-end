@@ -14,6 +14,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * <p>
  *  前端控制器
@@ -34,6 +36,13 @@ public class SysDictController {
     public Result<Page<DictResp>> page(DictQuery req){
         Page<SysDictEntity> page = sysDictService.page(new Page<>(req.getCurrent(), req.getPageSize()));
         return Result.ok(PageUtils.build(page, DictResp.class));
+    }
+
+
+    @GetMapping("/{code}")
+    @Operation(summary = "获取字典值列表",description = "获取字典值列表")
+    public Result<List<DictResp>> getDictValue(@PathVariable("code") String code){
+        return Result.ok(sysDictService.getDictValueByCode(code));
     }
 
     @PostMapping("/save")

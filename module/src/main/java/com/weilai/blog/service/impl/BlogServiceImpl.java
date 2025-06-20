@@ -66,7 +66,6 @@ public class BlogServiceImpl extends ServiceImpl<BlogMapper, BlogEntity> impleme
     @Override
     public Page<BlogResp> blogPage(BlogQuery req) {
         QueryWrapper<BlogEntity> wrapper = WrapperUtils.build(req);
-        System.out.println(wrapper);
         Page<BlogEntity>  page = this.page(new Page<>(req.getCurrent(), req.getPageSize()),wrapper);
         Page<BlogResp> build = PageUtils.build(page, BlogResp.class);
         build.getRecords().forEach(item -> {
