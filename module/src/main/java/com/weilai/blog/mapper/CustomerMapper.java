@@ -2,7 +2,7 @@ package com.weilai.blog.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.weilai.blog.model.entity.UserEntity;
+import com.weilai.blog.model.entity.CustomerEntity;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.weilai.blog.model.entity.UserEntity;
  * @author miku
  * @since 2025-06-12
  */
-public interface UserMapper extends BaseMapper<UserEntity> {
+public interface CustomerMapper extends BaseMapper<CustomerEntity> {
 
 }

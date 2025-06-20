@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @TableName("cc_user")
-public class UserEntity implements Serializable {
+public class CustomerEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

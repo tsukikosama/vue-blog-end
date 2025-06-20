@@ -21,4 +21,6 @@ public interface IBlogTagService extends IService<BlogTagEntity> {
     void removeBlogTagRelations(List<Long> id);
 
     List<Long> getTagIdByBlogId(Long id);
+
+    boolean isUseTag(Long item);
 }

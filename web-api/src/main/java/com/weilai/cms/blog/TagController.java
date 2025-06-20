@@ -4,8 +4,11 @@ import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.weilai.blog.model.entity.TagEntity;
 import com.weilai.blog.model.req.TagReq;
+import com.weilai.blog.service.IBlogService;
+import com.weilai.blog.service.IBlogTagService;
 import com.weilai.blog.service.ITagService;
 import com.weilai.system.common.Result;
+import com.weilai.system.exception.CustomException;
 import com.weilai.system.model.resp.TagResp;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,7 +31,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TagController {
     private final ITagService tagService;
-
+    private final IBlogTagService blogTagService;
     @GetMapping("/page")
     @Operation(summary = "标签分页", description = "标签分页")
     public Result<Page<TagResp>> page(){
@@ -52,6 +55,12 @@ public class TagController {
     @DeleteMapping("/delete")
     @Operation(summary = "删除标签", operationId = "删除标签")
     public Result<Void> delete(@RequestParam("ids") List<Long> ids){
+        //需要判断当前标签是否有blog在使用
+        ids.forEach(item -> {
+            if (blogTagService.isUseTag(item)){
+                throw new CustomException(String.format("标签{}已经被使用了,无法删除",tagService.getById(item).getName()));
+            }
+        });
         tagService.removeBatchByIds(ids);
         return Result.ok();
     }

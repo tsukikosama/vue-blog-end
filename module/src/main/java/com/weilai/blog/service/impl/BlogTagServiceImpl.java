@@ -54,4 +54,10 @@ public class BlogTagServiceImpl extends ServiceImpl<BlogTagMapper, BlogTagEntity
                 .eq(BlogTagEntity::getBlogId, id));
         return blogTagEntities.stream().map(BlogTagEntity::getBlogId).toList();
     }
+
+    @Override
+    public boolean isUseTag(Long item) {
+        Long l = this.baseMapper.selectCount(Wrappers.<BlogTagEntity>lambdaQuery().eq(BlogTagEntity::getTagId, item));
+        return l > 0;
+    }
 }

@@ -2,7 +2,7 @@ package com.weilai.system.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.weilai.blog.model.entity.UserEntity;
+import com.weilai.blog.model.entity.CustomerEntity;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.weilai.blog.model.entity.UserEntity;
  * @author miku
  * @since 2025-06-12
  */
-public interface IUserService extends IService<UserEntity> {
+public interface IUserService extends IService<CustomerEntity> {
 
 }
